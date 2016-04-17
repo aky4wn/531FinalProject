@@ -1,0 +1,461 @@
+---
+title: "Sta 531 HW7"
+author: 'Anna Yanchenko, NetID: aky5'
+date: "March 26, 2016"
+header-includes: \usepackage{dsfont}
+                \usepackage{amsmath}
+output: pdf_document
+---
+
+
+``````{r, echo = FALSE, message=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(cache = TRUE)
+library(data.table)
+library(dplyr)
+```
+
+Background:\newline
+Markov models and hidden Markov models are often used for modeling written text. A common way of modeling text is to consider each word to be a single observation $x_t$ (perhaps with some preprocessing to appropriately handle punctuation, etc.). In an HMM, the hidden states $z_t$ represent abstract concepts or word types, and they may or may not have a clear interpretation. More complex models are also frequently used to model text, especially higher-order Markov chains and probabilistic context-free grammars (PCFGs).\newline
+
+In this exercise, you will apply a hidden Markov model to a short sample of text resembling stories from a children's book. You will use the Baum-Welch algorithm to estimate the parameters. Using a short sample of text involving a limited vocabulary and relatively simple grammar makes the problem easier. (With a larger sample of text, larger vocabulary, and more complex grammar, a more sophisticated approach would probably be needed.)\newline
+
+
+Data: \newline
+The file "x.txt" contains a sequence of integers $x_1,...,x_n$, where $x_t$ represents the $t^{th}$ word/symbol in the sample of text.  The file "code.txt" contains the mapping from integers to words/symbols. (You will not need code.txt until part 3 of this assignment.)\newline
+
+
+Setup:\newline
+The hidden values $z_t$ belong to the set ${1,...,m}$, for some value of $m$ that we will choose below.  Each observation $x_t$ is an integer in ${1,...,k}$ where $k=59$, since there are 59 distinct words/symbols occurring in the text.  There are $n=292$ observations, $x_1,...,x_n$ (the text is 292 words/symbols long). For each state $i=1,...,m$, we model the emission distribution $p(x_t | z_t=i)$ as an arbitrary probability vector $\phi_i = (\phi_{i1},...,\phi_{ik})$ summing to 1.\newline
+
+
+Exercises:\newline\newline
+1. Implement the forward algorithm and backward algorithm. As a sanity check, compute the value of $\log(p(x_1,...,x_n))$ using the forward algorithm, assuming that the parameters are:\newline\newline
+	$m = 10$\newline
+	$\pi_i = 1/m$ for all $i=1,...,m$\newline
+	$T_{ij} = 1/m$ for all $i=1,...,m$ and $j=1,...,m$\newline
+	$\phi_{iw} = 1/k$ for all $i=1,...,m$ and $w=1,...,k$\newline\newline
+Report the value you get.  These parameter values are simple enough that you can analytically calculate $\log(p(x_1,...,x_n))$ to check your answer.\newline\newline
+
+As derived in class, the steps for the forward algorithm are:\newline
+(1) For $l = 1, \cdots, m$:\newline
+  $$s_1(z_1 = l) = p(z_1 = l)p(x_1 | z_1 = l)$$\newline
+(2) For $j = 2, \cdots, n$, for $l = 1, \cdots, m$:\newline
+$$s_j(z_j = l) = \sum_{z_{j-1}} s_j(z_{j-1})p(z_j = l | z_{j-1})p(x_j | z_j = l)$$
+(3) $$p(x_{1:n}) = \sum_{z_n} s_n(z_n)$$\newline
+
+However, due to underflow/overflow issues, we need to use the log-sum-exp trick so that we can actually calculate these quantities.  Applying the log-sum-exp trick, the algorithm becomes:\newline
+(1) For $l = 1, \cdots, m$:\newline
+  $$g_1(z_1 = l) = \log p(z_1 = l) + \log p(x_1 | z_1 = l)$$\newline
+(2) For $j = 2, \cdots, n$, for $l = 1, \cdots, m$:\newline
+$$b = max_{z_{j-1}} g_j(z_{j-1})+ \log p(z_j = l | z_{j-1}) + \log p(x_j | z_j = l)$$
+$$g_j(z_j = l) = b + \log\sum_{z_{j-1}}\mbox{exp}\Big( g_j(z_{j-1})+ \log p(z_j = l | z_{j-1}) + \log p(x_j | z_j = l) - b\Big)$$
+(3) $$\log p(x_{1:n}) = b' + \log \sum_{z_n} \mbox{exp} g_n(z_n - b')$$\newline
+$$b' = max_{z_n} g_n(z_n)$$\newline
+
+Similarly, for the backward algorithm (where we are using the log-sum-exp trick), we have:\newline
+(1) For $l = 1, \cdots, m$\newline
+$$r_1(z_1 = l) = log(1) = 0$$
+(2) For each $j = n-1, \cdots, 1$, for each $l = 1, \cdots, m$:\newline
+$$b = max_{z_{j+1}} r_{j+1}(z_{j+1}) + \log p(z_{j+1} | z_j = l) + \log p(x_{j+1} | z_{j+1})$$
+$$r_j(z_j = l) = b + \log\sum_{z_{j+1} = 1}^m \mbox{exp}\Big(r_{j+1}(z_{j+1}) + \log p(z_{j+1} | z_j = l) + \log p(x_{j+1} | z_{j+1}) - b \Big)$$\newline
+(3) $$b' = max_{z_1}\log p(z_1) + \log p(x_1 | z_1) + r_1(z_1)$$\newline
+$$\log p(x_{1:n})  = b' + \log\sum_{z_1 = 1}^m \mbox{exp}\Big(\log p(z_1) + \log p(x_1 | z_1) + r_1(z_1) - b' \Big)$$\newline
+
+In our case, each $p(z_1 = l) = \pi (z_1 = l) = 1/m$ for each $l = 1, \cdots, m$, $T_{ij} = 1/k$ for every $i = 1,\cdots, m$ and every $j=1,\cdots, m$ and finally that for each $x$, $\phi (x | z) = 1/k$.\newline
+
+After implementing the forward and backward portions of the algorithm, I find that $\log(p(x_1,...,x_n)) = -1190.64$ for both directions.  This setting is easy enough that we can analytically check it.\newline  
+$$p(x_{1:n}) = \sum_{z_{1:n}} p(x_{1:n}, z_{1:n}) = \sum_{z_{1:n}} p(z_1)p(x_1 | z_1)p(x_1|z_1)\prod_{t=2}^n p(z_t | z_{t-1})p(x_t | z_t)$$
+$$ = \big(\dfrac{1}{10}\big)^n \big(\dfrac{1}{59}\big)^n \sum_{z_{1:n}}(1) = \big(\dfrac{1}{10}\big)^n \big(\dfrac{1}{59}\big)^n\sum_{z_1 = 1}^m\sum_{z_2 = 1}^m\cdots\sum_{z_n = 1}^m (1)$$
+$$ = \Big(\dfrac{1}{10}\dfrac{1}{59} \Big)^n (m^n)$$
+$$ = \Big(\dfrac{1}{10}\dfrac{1}{59} \Big)^n 10^n = \big(\dfrac{1}{59}\big)^n = \big(\dfrac{1}{59}\big)^{292}$$
+$$\log(p(x_{1:n})) = -292*\log(59) = -1190.641$$\newline\newline
+
+
+```{r forwardbackward, echo = FALSE, message = FALSE}
+
+#number of possible states
+m = 10
+#number of observations
+x = fread("x.txt", header = FALSE)
+x = x$V1
+n = length(x)
+#possible values for each observations
+k = 59
+#initial distribution
+pi = rep(1/m, m)
+#emission distribution
+phi = matrix(1/k, nrow = m, ncol = k)
+#transition matrix
+Tmat = matrix(1/m, nrow = 10, ncol = 10)
+
+########################
+##Log-Sum-Exp Function##
+########################
+
+#Function using the log-sum-exp trick#
+logSumExp = function(a){
+  b = max(a)
+  if(b == -Inf)
+    return(-Inf)
+  else if(b == Inf){
+    return(Inf)
+  }
+  else
+    return(b + log(sum(exp(a-b))))
+}
+
+#####################
+##Forward Algorithm##
+#####################
+
+#Function to run forward algorithm, arguments are n = # obs, m = # states for z,#
+#k = # states for x, pi = initial distribution(m vector), 
+#Tmat = transition matrix (mxm), phi = emission distribution (m x k matrix)#
+#x is the observed data#
+#takes log of pi, Tmat and phi
+
+forwardAlg = function(n, m, k, pi, Tmat, phi, x){
+  g = matrix(0, nrow = n, ncol = m)
+  for(i in 1:m){
+    g[1,i] = (pi[i])+(phi[i,x[1]])
+  }
+  
+  for(j in 2:n){
+    for(l in 1:m){
+      g[j, l] = logSumExp(g[j-1, ]+(Tmat[,l])+(phi[l,x[j]]))
+    }
+  }
+  
+  return(g)
+}
+#Function to return p(x_1:n) from matrix from forward algorithm
+pForward = function(g, x){
+  pXf = logSumExp(g[length(x),])
+  return(pXf)
+}
+
+##Run forward algorithm on test case above#
+f = forwardAlg(n, m, k, log(pi), log(Tmat), log(phi), x)
+pf = pForward(f, x)
+
+######################
+##Backward Algorithm##
+######################
+
+#Function to run forward algorithm, arguments are n = # obs, m = # states for z,#
+#k = # states for x, pi = initial distribution(m vector), 
+#Tmat = transition matrix (mxm), phi = emission distribution (k vector)#
+#x is the observed data#
+#takes log of pi, Tmat and phi
+
+
+backwardAlg = function(n, m, k, pi, Tmat, phi, x){
+  r = matrix(0, nrow = n, ncol = m)
+  
+  
+  for(j in (n-1):1){
+    for(l in 1:m){
+      r[j, l] = logSumExp(r[j+1, ]+(Tmat[l,])+(phi[,x[j+1]]))
+      
+    }
+  }
+  return(r)
+}
+
+#Function to return p(x_1:n) from matrix from backward algorithm
+pBackward = function(r, pi, phi, x){
+  pXb = logSumExp(r[1, ]+pi+phi[,x[1]])
+  return(pXb)
+}
+
+##Run backward algorithm on test case above#
+b = backwardAlg(n, m, k, log(pi), log(Tmat), log(phi), x)
+pb = pBackward(b, log(pi), log(phi), x)
+
+
+
+```
+
+2. Implement the Baum-Welch algorithm. For the convergence criterion, stop when the change in $\log(p(x_1,...,x_n))$ from one iteration to the next is less than 0.01. Run the algorithm on the data in x.txt, with the following settings:
+a) m = 10\newline
+b) m = 30\newline
+c) m = 100\newline
+
+For each $m$, run the algorithm 3 times with different randomly chosen initializations of the parameters (so, you will be doing 9 runs altogether). For each run, report the number of iterations until "convergence" and report the value of $\log(p(x_1,...,x_n))$ at the last iteration.\newline\newline
+
+The Baum-Welch algorithm is as follows:\newline
+(1) Initialize $\theta_1 = (\pi^{(1)}, \phi^{(1)}, T^{(1)})$.\newline
+(2) For $k = 1,2,\cdots$ until some convergence criteria is met,\newline
+(a) E-step: Compute the function\newline
+$$Q(\theta, \theta_k) = \mathbb{E}_{\theta_k}(\log p_{\theta}(X,Z) | X = x) = \sum_{z}(\log p_{\theta} (x, z))p_{\theta_k}(z|x)$$\newline
+(b) M-step: Solve for $\theta_{k+1}\in\mbox{argmax}_{\theta} Q(\theta, \theta_k)$\newline
+
+For the HMM model, we have that 
+$$Q(\theta, \theta_k) = \sum_{i=1}^m \gamma_{1i}\log \pi_i + \sum_{t=2}^n\sum_{i,j = 1}^m \beta_{tij}\log T_{ij} + \sum_{t=1}^n\sum_{i=1}^m\gamma_{ti}\log f_{\phi_i}(x_t)$$\newline
+$$\gamma_{ti} = \mathbb{P}_{\theta_k}(Z_t = i | x)$$\newline
+$$\beta_{tij} = \mathbb{P}_{\theta_k}(Z_{t-1} = i, Z_t = j | x)$$\newline
+
+For the E-step, then, we only need to find the values of $\gamma$ and $\beta$.  $\gamma$ is a $n$ x $m$ matrix and $\beta$ is an $n$ x $m$ x $m$ array.  To avoid overflow and underflow issues, we work with $\log \gamma$ and $\log \beta$ where we take the $\log$ of each individual element in the corresponding matrix/array.  We can solve for $\log \gamma$ and $\log \beta$ using the results of the forward-backward algorithm.\newline
+
+For each iteration of the Baum-Welch algorithm, we first run the forward-backward algorithm and find $\log p(x_{1:n})$ using the output.  Then, 
+$$\gamma_{ti} = \dfrac{p(x_{1:t}, z_t)p(x_{t+1:n} | z_t)}{p(x_{1:n})}$$
+$$\log \gamma_{ti} = \log p(x_{1:t}, z_t) + \log p(x_{t+1:n} | z_t) - \log p(x_{1:n}) = g[t,i] + h[t,i] - \log p(x_{1:n})$$
+where the matricies $g$ and $h$ are the output from the forward and backward algorithms, respectively.\newline
+
+Likewise,\newline
+$$\beta_{tij} = \mathbb{P}(Z_{t-1} = i, Z_t = j | X_{1:n})$$\newline
+$$\beta_{tij} = \dfrac{p(x_{1:t-1}, z_{t-1})p(z_t | z_{t-1})p(x_t | z_t)p(x_{t+1:n} | z_t)}{p(x_{1:n})}$$\newline
+$$\log\beta_{tij} = \log p(x_{1:t-1}, z_{t-1}) + \log p(z_t | z_{t-1}) + \log p(x_t | z_t) + \log p(x_{t+1:n} | z_t) - \log p(x_{1:n})$$\newline
+$$\log\beta_{tij} = g[t-1, i] + \log T_{ij} +\log \phi[j,x[t]] + h[t,j] - \log p(x_{1:n})$$\newline
+
+where again, the matricies $g$ and $h$ are the output from the forward and backward algorithms, respectively.\newline
+
+Then, in the M-step, we need to update $\pi$, $\phi$, and T.  For convenience, in the algorithm implementation, I work with the logarithm of all of these quantities so I can use the log-sum-exp trick and avoid overflow/underflow issues.  As derived in the class notes, we have\newline
+$$\pi_{i} = \dfrac{\gamma_{1i}}{\sum_{j=1}^m \gamma_{1j}}$$\newline
+$$T_{ij} = \dfrac{\sum_{t=2}^n \beta_{tij}}{\sum_{t=2}^n\sum_{j=1^m} \beta_{tij}}$$\newline
+
+We can derive $\phi_{iw}$ in a similar manner.  $\phi$ is an m x k matrix, where $k$ are the possible states of $x$ and $m$ are the possible states of $z$.  
+
+$$Q(\theta, \theta_k)\sim_{\phi} \sum_{t=1}^n\sum_{j=1}^m \gamma_{tj} \log f_{\phi_j}(x_t)$$\newline
+$$f_{\phi_j}(x_t) = \phi_{j,x_t} = \sum_{w}\mathds{1}(x_t = w)\log \phi_{jw}$$\newline
+Constraint: $\sum_{w}\phi_{iw} = 1$ for all $i = 1,\cdots, m$.\newline
+$$\dfrac{\partial}{\partial \phi_{iw}}\log \phi_{iw} = \dfrac{1}{\phi_{iw}}$$\newline
+$$0 = \dfrac{\partial}{\partial \phi_{iw}} (Q(\theta, \theta_k) - \lambda \sum_{w'} \phi_{iw})$$
+$$ = \dfrac{\partial}{\partial \phi_{iw}} \Bigg(\sum_{t=1}^n\sum_{j=1}^m \gamma_{tj}\sum_{w'}\mathds{1}(x_t = w')\log \phi_{jw'} -\lambda\sum_{w'} \phi_{iw}\Bigg)$$\newline
+$$ = \sum_{t=1}^n\sum_{j=1}^m\sum_{w'}\mathds{1}(x_t = w)\gamma_{tj}\dfrac{\partial}{\partial \phi_{iw}}\log \phi_{iw} - \lambda$$\newline
+$$ = \sum_{t=1}^n\mathds{x_t = w}\gamma_{ti}\dfrac{1}{\phi_{iw}} - \lambda$$\newline
+$$= \dfrac{1}{\phi_{iw}}\sum_{t:x_t = w}\gamma_{ti} - \lambda$$\newline
+$$\Longrightarrow \lambda = \dfrac{1}{\phi_{iw}}\sum_{t:x_t = w} \gamma_{ti}$$\newline
+$$\lambda \phi_{iw} = \sum_{t:x_t = w}\gamma_{ti}$$\newline
+Using the constraint,\newline
+$$\lambda = \sum_{i = 1}^m \lambda \phi_{iw} = \sum_{i=1}^m \sum_{t: x_t = w}\gamma_{ti}$$\newline
+$$\Longrightarrow \phi_{iw} = \dfrac{\sum_{t:x_t = w} \gamma_{ti}}{\sum_{i=1}^m \sum_{t:x_t = w} \gamma_{ti}}$$\newline
+
+All together, we implement the algorithm as:\newline
+(1) Randomly initialize $\pi$, T and $\phi$\newline
+(2) Iteratively repeat the following steps, until convergence:\newline
+  (a) E-step: Run the forward-backward algorithm given the current values of $\pi$, T and $\phi$ and use the results to calculate $\gamma$ and $\beta$.\newline
+  (b) M-step: Update $\pi$, T and $\phi$ using the formulas above involving $\gamma$ and $\beta$.\newline
+  
+I implement the Baum-Welch algorithm as described above in a function, which returns the number of iterations until convergence, the value of $\log p(x_{1:n})$ for the last iteration and the values of $\pi$, $\phi$ and T for the last iteration.\newline
+
+Based on the three different initial start values, it takes quite different numbers of iterations to reach convergence.  However, for each $m$ value, we get similar results for $\log p(x_{1:n})$ at the end of the algorithm.  For $m=100$, my function was taking a very long time to reach convergence, so I used a higher convergence criteria and thus there were less iterations run.\newline\newline
+
+
+
+
+
+
+
+```{r baumwelch, echo = FALSE}
+########################
+##Baum Welch Algorithm##
+########################
+
+#Function to perform baum welch algorithm#
+#inputs are n, m, k, x as above and seed s#
+
+BaumWelch = function(n, m, k, x, s){
+  
+  #randomly initialize pi, phi and T#
+  set.seed(s)
+  vals = runif(m, min = 0, max = 1)
+  pi = log(vals/sum(vals))
+  Tmat = matrix(0, nrow = m, ncol = m)
+  phi = matrix(0, nrow = m, ncol = k)
+  for(i in 1:m){
+    vals = runif(m, min = 0, max = 1)
+    Tmat[i,] = log(vals/sum(vals))
+    
+    vals2 = runif(k, min = 0, max = 1)
+    phi[i,] = log(vals2/sum(vals2))
+  }
+  
+  
+  iterations = 0
+  pOld = 100
+  pNew = 200
+  
+  #Initialize matricies for gamma and beta values#
+  gamma = matrix(0, nrow = n, ncol = m)
+  beta = array(0, dim = c(n, m, m))
+  
+  #Stop iterations when log(p(x_1:n)) differs by 0.01 between iterations#
+  if(m<100){
+    convergence = 0.01
+  }
+  else
+    convergence = 1
+  while(abs(pOld - pNew) > convergence){
+    #Perform forward and backward algorithms# 
+    pOld = pNew
+    g = forwardAlg(n, m, k, pi, Tmat, phi, x)
+    h = backwardAlg(n, m, k, pi, Tmat, phi, x)
+    pNew = pForward(g, x)
+    
+    ##E-Step##
+    
+    #Calculate gamma and beta#
+    for(t in 1:n){
+      gamma[t,] = (g[t,] + h[t,] - pNew)
+    }
+    for(t in 1:n){
+      for(i in 1:m){
+        for(j in 1:m){
+          if(t == 1){
+            beta[t,i,j] = 1
+          }
+          else{
+            beta[t,i,j] = Tmat[i,j]+phi[j, x[t]]+(g[t-1,i] +h[t, j] - pNew)
+                          
+          }
+        }
+      }
+    }
+    
+    ##M-Step##
+    
+    #Update pi, phi and Tmat#
+    pi = gamma[1,] - logSumExp(gamma[1,])
+    for(i in 1:m){
+      for(j in 1:m){
+        Tmat[i,j] = logSumExp(beta[2:n,i,j]) - logSumExp(beta[2:n, i,])
+      }
+    }
+    for(i in 1:m){
+      for(w in 1:k){
+        indicies = which(x == w)
+        phi[i, w] = logSumExp(gamma[indicies, i]) - logSumExp(gamma[, i])
+        
+      }
+    }
+   iterations =iterations +1 
+  }
+  l = list()
+  l$iterations = iterations
+  l$p = pNew
+  l$pi = exp(pi)
+  l$phi = exp(phi)
+  l$Tmat = exp(Tmat)
+  return(l)
+}
+
+#Run the Baum-Welch Algorithm for different seeds
+m10_1 = BaumWelch(n, m=10, k, x, 17)
+m30_1 = BaumWelch(n, m=30, k, x, 17)
+m100_1 = BaumWelch(n, m=100, k, x, 17)
+m10_2 = BaumWelch(n, m=10, k, x, 7)
+m30_2 = BaumWelch(n, m=30, k, x, 7)
+m100_2 = BaumWelch(n, m=100, k, x, 7)
+m10_3 = BaumWelch(n, m=10, k, x, 1717)
+m30_3 = BaumWelch(n, m=30, k, x, 1717)
+m100_3 = BaumWelch(n, m=100, k, x, 1717)
+```
+
+```{r,echo=FALSE, results='asis', message = FALSE}
+require(xtable)
+#Print coefficients of logistic regression using xtable#
+bw1 = data.frame(c(m10_1$iterations, m10_1$p), c(m30_1$iterations, m30_1$p),
+                 c(m100_1$iterations, m100_1$p))
+rownames(bw1) = c("Number of Iterations","log p(x_1:n)")
+colnames(bw1) = c("m = 10", 'm = 30', 'm = 100')
+print(xtable(data.frame(bw1),  
+             caption= "Number of iterations until convergence and
+             log p(x1:n) for 3 values of m for seed 1",
+             digits=4 ), comment = FALSE)
+bw2 = data.frame(c(m10_2$iterations, m10_2$p), c(m30_2$iterations, m30_2$p),
+                 c(m100_2$iterations, m100_2$p))
+rownames(bw2) = c("Number of Iterations","log p(x_1:n)")
+colnames(bw2) = c("m = 10", 'm = 30', 'm = 100')
+print(xtable(data.frame(bw2),  
+             caption="Number of Iterations Until Convergence and 
+             log p(x1:n) for 3 Values of m for Seed 2",
+             digits=4 ), comment = FALSE)
+bw3 = data.frame(c(m10_3$iterations, m10_3$p), c(m30_3$iterations, m30_3$p),
+                 c(m100_3$iterations, m100_3$p))
+rownames(bw3) = c("Number of Iterations","log p(x_1:n)")
+colnames(bw3) = c("m = 10", 'm = 30', 'm = 100')
+print(xtable(data.frame(bw3),  
+             caption="Number of Iterations Until Convergence and 
+             log p(x1:n) for 3 Values of m for Seed 3",
+             digits=4 ), comment = FALSE)
+
+```
+
+
+
+3. Implement a function that takes the HMM parameters, generates a random sequence of hidden states $z_1,...,z_n$ and observations $x_1,...,x_n$, and (using code.txt) prints out the sequence of words/symbols corresponding to $x_1,...,x_n$ in a nicely-formatted way.  For each m = 10, 30, and 100, run your implementation of the Baum-Welch algorithm to estimate the parameters, generate a random sequence $x_1,...,x_N$ with $N=250$, and print out the corresponding sequence of words/symbols. Discuss the differences you observe between the generated text for $m = 10, 30$, and 100.\newline\newline 
+
+After running the Baum-Welch algorithm for $m = 10, 30,$ and $100$, we have the final values of $\pi$, $\phi$ and T returned.  Then, to generate a random sequence of $z_1,...,z_n$ I first sample $z_1$ from the returned value of $\pi$, then, using the previous value of $z$, for $j = 2,\cdots, n$ I sample $z_j$ from the $j-1^{th}$ row of T.  Finally, once I have all the values of $z$, I sample $x_t$ from the $z[i]^{th}$ row of $\phi$.\newline 
+
+
+
+```{r hmm, echo = FALSE}
+
+#Function to decode the states of x according the the code in code#
+decode = function(x, code){
+  output = rep(0, length(x))
+  for(i in 1:length(x)){
+    output[i] = code[x[i]]
+  }
+  output = paste(output, collapse = ' ')
+  return(output)
+}
+#Decode given x data#
+testCode = fread("code.txt", header = FALSE)
+words = testCode$V2
+ex = decode(x, words)
+print("Given x values")
+strwrap(ex, width = 80)
+
+
+hmm = function(n, pi, phi, Tmat, code){
+  m = nrow(Tmat)
+  k = ncol(phi)
+  zstates = 1:m
+  xstates = 1:k
+  z = rep(0, n)
+  x = rep(0,n)
+  z[1] = sample(zstates, size = 1, replace = FALSE, prob = pi)
+  for(j in 2:n){
+    z[j] = sample(zstates, size = 1, replace = FALSE, prob = Tmat[z[j-1],])
+  }
+  for(i in 1:n){
+    x[i] = sample(xstates, size = 1, replace = FALSE, prob = phi[z[i],])
+  }
+  output = decode(x, code)
+  return(output)
+}
+
+print("m=10")
+strwrap(hmm(250, m10_1$pi, m10_1$phi, m10_1$Tmat, words), width=80)
+print("m=30")
+strwrap(hmm(250, m30_1$pi, m30_1$phi, m30_1$Tmat, words), width = 80)
+print("m=100")
+strwrap(hmm(250, m100_1$pi, m100_1$phi, m100_1$Tmat, words), width = 80)
+
+
+```
+
+Based on my simulations, $m=10$ seems to give the most logical output, though some of the sentences are slightly odd, while for $m=100$, the output gives the strangest result and the sentences do not make sense and we get a lot of repeated words.  The $m = 30$ also gives probably the most logical sentences as output.  $m=100$ should give the most logical output due to the large number of states and the chance that it might overfit.  However, since the $m=100$ is run for less iterations due to the slightly higher convergence criteria (since it was taking so long to converge), perhaps the simulated data is not as representative as for $m=10$ and $m=30$.
+
+R code:\newline
+
+(1) Forward-Backward Algorithm:\newline
+
+```{r, ref.label='forwardbackward', eval = FALSE}
+
+```
+
+(2) Baum-Welch Algorithm:\newline
+
+```{r, ref.label='baumwelch', eval = FALSE}
+
+```
+
+(3) Random Sequence for $x_{1:n}$, $z_{1:n}$\newline
+
+```{r, ref.label='hmm', eval = FALSE}
+
+```
