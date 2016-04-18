@@ -2,3 +2,5 @@
 
 
 http://www.cs.sun.ac.za/rw778/files/2011/11/j_buys_hons_report_2011.pdf
+
+Convert MIDI to CSV: http://www.fourmilab.ch/webtools/midicsv/
