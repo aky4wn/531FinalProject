@@ -109,11 +109,9 @@ Both Jupiter and Pachabel's Cannon are well-known classical pieces whose themes 
 
 \subsection{First Order Hidden Markov Model}
 
--lots of octave interval jumps that are not apparent in the actual song (measures 1, 3, 4 and more)
-- more rests in the first two lines
-- more quarter and half notes than in the original piece (for the right hand - top)
-- left hand moves more than originally and the left hand has less moving notes, melody seems to be equally distributed between the two hands
-- also no resolution
+*Jupiter*
+
+The Jupiter remix created using the first order Hidden Markov Model had lots of octave and interval jumps that were not present in the original song. For example, this behavior can be seen in measures one, three and four. In additoin, there are more rests in the first two lines of the remix and there are also more quarter and half notes. The melody of the song seems to be distributed about equally between the left and the right hands. The left hand controlled most of the melody in the original composition. There is also no resolution in the remix.
 
 \begin{figure}[H]
 \centering
@@ -121,27 +119,19 @@ Both Jupiter and Pachabel's Cannon are well-known classical pieces whose themes 
 \includegraphics [scale = 0.6] {JupiterRemix-cropped.pdf}
 \end{figure}
 
-Pachabel's
--fewer sixteenth notes and more dotted notes (beat and a half)
-- original has mostly all straight eighth/sixteenth notes for the melody
-- more rests than there are in the original 
-- large octave jumps that don't occur, also just some large intervals
+*Pachabel's Cannon*
 
+The remixed version of Pachabel's Cannon has less sixteenth notes but more dotted notes. Pachabel's Cannon consists of mostly eighth or sixteenth notes for the melody. There are also more rests in this remixed version than there are in the original. Finally, there are large octave jumps and jumps of large intervals in this version.
 
-Why do we think this is happening
-- melody for Pachabel's builds over several measures, only basing on previous note
-- not capturing enough of overall structure, so some notes are occuring together that should not occur together
-- more structure would get whole chord from the prevous state, so some notes are dissonant together
+The first order HMM compositions sounded very different from the original compositions. This probably occurs because the model does not capture enough of the overall structure. Thus there are some notes that occur together and should not. For example, the melody for Pachabel's cannon builds over several measures. The first order HMM only has the state depend on the former state. A model that captured more structure could have the potential to incorporate the whole chord from the previous state. 
 
 Survey results
 
 \subsection{Second Order Hidden Markov Model}
 
-Jupiter
--still some large interval jumps, but less than model one
--chords make more sense but there is less dissonance
--less rests than model one but more than in the original
+*Jupiter*
 
+The Juptier composition created using the second order Hidden Markov Model is an improvement on the first remix. It still has some large interval jumps, but fewer jumps than that from Model 1. The chords also make more sense in the piece, but there is less dissonance. The piece also has fewer rests than the first order composition, but more rests than i nthe original composition.
 
 SURVEY SAYS
 
@@ -152,20 +142,13 @@ SURVEY SAYS
 \includegraphics [scale = 0.6] {JupiterRemix2-cropped.pdf}
 \end{figure}
 
-Pachabel
--more sixteenth notes than the first order but less than the original song
--awkward interval jumps present
--chords made more sense, less dissonance, gaps and breaks
-
-
--progression of the song seemed more logical because more structure was being captured than the original version
-
+*Pachabel*
+The Cannon composition created using the second order Hidden Markov Model has more sixteenth notes than the first remix, but fewer sixteenth notes than the original version. There are still awkward interval jumps present in the piece. Overall, the chords made more sense and there was less dissonance in this piece than the first remix. The progression of the song seemed to be more logical than the first model. This probably occured because the second order HMM captures more structure than the first order HMM.
 
 \subsection{First Order Hidden Markov Model with Two Hidden States}
 
-Jupiter 
-- fewest rests of the three remixes, but stil more than the original
--interval jumps are larger than original, but smaller than the other songs and there are fewer of them
+*Jupiter*
+OF the three remixes, this version had the fewest rests of the remixed compositions, but more than the original version. It also contained large interval jumps. These jumps between notes were larger than the noes that occured in the original song, but were smaller than the jumps in the other versions. 
 
 
 \begin{figure}[H]
@@ -175,8 +158,8 @@ Jupiter
 \end{figure}
 
 *Pachabel*
--lots of eighth and sixteenth notes, more than the other two but not as many as the original
--still large jumps in notes, eight or more, between successive notes (including half steps) (see this measure for an example)
+The two latent state version had more eighth and sixteenth notes than the other two remix versions. However, it still did not have as many as the original version. There are still large jumps in between notes. 
+
 
 \subsection{Summary}
 - Model 2 appears to be better with structure
