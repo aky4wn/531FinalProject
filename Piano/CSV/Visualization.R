@@ -19,7 +19,7 @@ colnames(remix3) = c("one", "two", "Header", "zero", "Note", "Velocity", "X")
 library(ggplot2)
 
 #comparing velocities
-ggplot(original, aes(x=row.names(remix1), y = Velocity)) + geom_point(shape = 1)
+ggplot(original, aes(x=row.names(remix1), y = Velocity)) + geom_point(shape = 1, col = "blue")
 ggplot(remix1, aes(x=row.names(remix1), y = Velocity)) + geom_point(shape = 1)
 ggplot(remix2, aes(x=row.names(remix2), y = Velocity)) + geom_point(shape = 1)
 ggplot(remix3, aes(x=row.names(remix3), y = Velocity)) + geom_point(shape = 1)
@@ -29,3 +29,13 @@ ggplot(original, aes(Note)) + geom_bar() + ggtitle("Original Composition")
 ggplot(remix1, aes(Note)) + geom_bar() + ggtitle("First Order HMM")
 ggplot(remix2, aes(Note)) + geom_bar() + ggtitle("Second Order HMM")
 ggplot(remix3, aes(Note)) + geom_bar()+ ggtitle("First Order HMM \n Two Hidden States")
+
+
+#Survey Results
+survey = read.csv("SurveyResults.csv")
+
+ggplot(data=survey, aes(x=Favorite,fill=Song)) + geom_bar() + ggtitle("Favorite Compositions") + 
+  theme(plot.title = element_text(lineheight=.8, face="bold"))
+
+ggplot(data=survey, aes(x=Correct,fill=Song)) + geom_bar() + ggtitle("Guesses of Original") + 
+  theme(plot.title = element_text(lineheight=.8, face="bold"))
