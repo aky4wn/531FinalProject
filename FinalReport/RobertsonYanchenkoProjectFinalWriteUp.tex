@@ -145,6 +145,35 @@ OF the three remixes, this version had the fewest rests of the remixed compositi
 
 The two latent state version had more eighth and sixteenth notes than the other two remix versions. However, it still did not have as many as the original version. There are still large jumps in between notes. 
 
+The following figures display the velocities for successive notes of the original compositions and the remixes. The same figures presented in the Results section and the below can be found in the Appendix for the Pachelbel's Cannon application. 
+
+\begin{figure}[ht] 
+  \label{ fig7} 
+  \begin{minipage}[b]{0.5\linewidth}
+    \centering
+    \includegraphics[scale = 0.45]{JupiterOriginalVelocity.pdf} 
+    \caption{Initial condition} 
+    \vspace{4ex}
+  \end{minipage}%%
+  \begin{minipage}[b]{0.5\linewidth}
+    \centering
+    \includegraphics[scale = 0.45]{JupiterModel1Velocity.pdf} 
+    \caption{First Order HMM} 
+    \vspace{4ex}
+  \end{minipage} 
+  \begin{minipage}[b]{0.5\linewidth}
+    \centering
+    \includegraphics[scale = 0.45]{JupiterModel2Velocity.pdf} 
+    \caption{Second Order HMM} 
+    \vspace{4ex}
+  \end{minipage}%% 
+  \begin{minipage}[b]{0.5\linewidth}
+    \centering
+    \includegraphics[scale = 0.45]{JupiterModel3Velocity.pdf} 
+    \caption{Two Hidden States} 
+    \vspace{4ex}
+  \end{minipage} 
+\end{figure}
 
 \subsection{Summary}
 Overall, the remix created using the second order Hidden Markov Model appeared to have the best structure of all of the remixes. On the other hand, the remix created using the first order Hidden Markov Model with two latent states had better chords. In all of the new compositions, the melody seemed to be split between the two hands. The models did not catch the general structure that lower notes, those played by the right hand, were longer in the original versions of the pieces. Most of melody was in the right hand notes. In all of the models, the dynamics were modeled independently and as a result the dynamics did always occur in a logical fashion. There are many instances where certain notes are uncomfortably loud compared to the rest of the piece. 
@@ -244,6 +273,61 @@ $$ \lambda B_{jkl} = \sum_{t=2}^n \sum_i B_{tikjl}$$
 
 For each j, k, \newline
 $$B_{jkl} \propto \sum_{t=2}^n \sum_i B_{tikjl}$$
+
+\subsection{Pachabel's Cannon Resuts}
+
+\begin{figure}[H]
+\centering
+\caption{Pachelbel Original}
+\includegraphics [scale = 0.6] {PachelbelOriginal-cropped.pdf}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\caption{Pachelbel Remix - Model 1}
+\includegraphics [scale = 0.6] {PachelbelRemix-cropped.pdf}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\caption{Pachelbel Remix - Model 2}
+\includegraphics [scale = 0.6] {PachelbelRemix2-cropped.pdf}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\caption{Pachelbel Remix - Model 3}
+\includegraphics [scale = 0.6] {PachelbelRemix2H-cropped.pdf}
+\end{figure}
+
+
+\begin{figure}[ht] 
+  \label{ fig7} 
+  \begin{minipage}[b]{0.5\linewidth}
+    \centering
+    \includegraphics[scale = 0.45]{CannonOriginalVelocity.pdf} 
+    \caption{Initial condition} 
+    \vspace{4ex}
+  \end{minipage}%%
+  \begin{minipage}[b]{0.5\linewidth}
+    \centering
+    \includegraphics[scale = 0.45]{CannonModel1Velocity.pdf} 
+    \caption{First Order HMM} 
+    \vspace{4ex}
+  \end{minipage} 
+  \begin{minipage}[b]{0.5\linewidth}
+    \centering
+    \includegraphics[scale = 0.45]{CannonModel2Velocity.pdf} 
+    \caption{Second Order HMM} 
+    \vspace{4ex}
+  \end{minipage}%% 
+  \begin{minipage}[b]{0.5\linewidth}
+    \centering
+    \includegraphics[scale = 0.45]{CannonModel3Velocity.pdf} 
+    \caption{Two Hidden States} 
+    \vspace{4ex}
+  \end{minipage} 
+\end{figure}
 
 \newpage
 
