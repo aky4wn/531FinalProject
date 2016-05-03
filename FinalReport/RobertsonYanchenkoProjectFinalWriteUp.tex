@@ -16,7 +16,7 @@
 \author{
 Anna Yanchenko \\
 Duke University\\
-\texttt{anna.yachenko@duke.edu} \\
+\texttt{anna.yanchenko@duke.edu} \\
 \And
 Megan Robertson \\
 Duke University \\
@@ -55,9 +55,7 @@ Classical piano pieces were used to train each of the models. In this paper we p
 
 The classical pieces were used to estimate the respective parameters of the models described below. In this training, the tempo, key signature and length of the original song were not changed. The only possible observed states were the velocities and notes present in the original pieces. Once the parameters had been estimated, they were used to generate a new piece of music. This process generates a CSV file of the new composition, and this file is then converted to a MIDI file using the same program as above. The files can then be played on a synsthesizer or a program such as GarageBand.
 
-The three models used are described in the subsections below. They are a first order HMM, a second order HMM, and a first order HMM with two hidden states. 
-
-- Transition matrix is the only thing changing between these models
+The three models used are described in the subsections below. They are a first order HMM, a second order HMM, and a first order HMM with two hidden states. In order to evaluate the performance of each model, twenty-two survey respondents determined which of the compositions they liked best for either Pachabel's Cannon or Holst's Jupiter. They also were provided with both the original Jupier and Cannon, and asked which of the original versions they thought inspired the remixes. 
 
 \subsection {Model 1: First Order Hidden Markov Model}
 
@@ -121,13 +119,9 @@ The remixed version of Pachabel's Cannon has less sixteenth notes but more dotte
 
 The first order HMM compositions sounded very different from the original compositions. This probably occurs because the model does not capture enough of the overall structure. Thus there are some notes that occur together and should not. For example, the melody for Pachabel's cannon builds over several measures. The first order HMM only has the state depend on the former state. A model that captured more structure could have the potential to incorporate the whole chord from the previous state. 
 
-Survey results
-
 \subsection{Second Order Hidden Markov Model}
 
 The Juptier composition created using the second order Hidden Markov Model is an improvement on the first remix. It still has some large interval jumps, but fewer jumps than that from Model 1. The chords also make more sense in the piece, but there is less dissonance. The piece also has fewer rests than the first order composition, but more rests than i nthe original composition.
-
-SURVEY SAYS
 
 
 \begin{figure}[H]
@@ -155,6 +149,32 @@ The two latent state version had more eighth and sixteenth notes than the other 
 \subsection{Summary}
 Overall, the remix created using the second order Hidden Markov Model appeared to have the best structure of all of the remixes. On the other hand, the remix created using the first order Hidden Markov Model with two latent states had better chords. In all of the new compositions, the melody seemed to be split between the two hands. The models did not catch the general structure that lower notes, those played by the right hand, were longer in the original versions of the pieces. Most of melody was in the right hand notes. In all of the models, the dynamics were modeled independently and as a result the dynamics did always occur in a logical fashion. There are many instances where certain notes are uncomfortably loud compared to the rest of the piece. 
 
+Figure eight displays the results of the survey. Of the listeners asked about the compositions inspired by Pachabel's Cannon, three preferred Model 1, six preferred Model 2 and only one preferred Model 3. Six out of ten correctly identified the original compositon. On the other hand, eight of twelve respondents correctly chose Jupiter as the original composition for the other remixes. None of the resondents preferred Model 1, ten preferred Model 2 and two preferred Model 3. For both groups, Model 2 was the overall preferred composition. 
+
+
+
+
+\begin{figure}
+\centering
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[scale = 0.5]{SurveyFav.pdf}
+  \caption{Preferred Compositions}
+  \label{fig:sub1}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[scale = 0.5]{SurveyGuesses.pdf}
+  \caption{Inspiration for the Remixes}
+  \label{fig:sub2}
+\end{subfigure}
+\caption{Survey Results}
+\label{fig:test}
+\end{figure}
+
+
+
+
 \section{Conclusion and Further Research}
 
 Of the three models used to create the remixed compositions, none of the models produce d pieces that soudned like fundmental music. This is not surprising given the simple structures of our models. There are certain points in soe of the pieces where individual measures sound good, but the overall piece is still not cohesive. The secon order HMM seemed to perform the best in creating music. 
@@ -169,6 +189,32 @@ The resulting compositions from these models showed promising results, but there
 \newpage
 
 \section{Appendix}
+
+\subsection{Baum-Welch for Second Order HMM}
+
+1. Run first order Baum-Welch to estimate $\pi$, T, $\phi$. \newline
+2. Use second order Baum-Welch to estimate $T_{ijk}$.\newline
+
+Forward Algorithm: \newline
+$$\alpha_1(i) = \pi_i \phi_i(x_1)$$
+$$\alpha_2(i,j) = \alpha_1(i) T_{ij} \phi_j(x_2)$$
+$$:$$
+$$:$$
+$$\alpha_{t+1}(j, l) = \sum_{i=1}^M \alpha_t(i,j) T_{ijl} \phi_l(x_{t+1})$$
+where 2 $\leq$ t $\leq$ T-1 and 1 $\leq$j,k $\leq$ N = M. \newline
+Thus, $P(X | \lambda) = \sum_{i=1}^M \alpha_T(i,M)$. \newline
+
+Backward Algorithm: \newline
+$$\beta_t(i,j) = \sum_{i=1}^M \beta_{t+1}(j,k) T_{ijk} \phi_k(x_{t+1})$$
+where 2 $\leq$ t $\leq$ T-1 and 1 $\leq$ j,k $\leq$ M. \newline
+
+Baum-Welch Estimate for $T_{ijk}$: \newline
+$$\beta_t(i,j,k) = \frac{\alpha_t(i,j) T_{ijk} \phi_k(x_{t+1} \beta_{t+1}(j,k)}{P(x|\lambda)}$$ 
+where 2 $\leq$ t $\leq$ T-1. \newline
+
+$$\bar{T_{ijk}} = \frac{\sum_t \beta_t (i,j,k)}{\sum_{k,t} \beta_t (i,j,k)}$$
+
+Iterate until $|p_{old} - p_{new}| < tol$. 
 
 \subsection{Baum-Welch for First Order HMM with Two Hidden States}
 
