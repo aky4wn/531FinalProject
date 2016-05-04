@@ -1,0 +1,636 @@
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.5.24)  4 MAY 2016 00:41
+entering extended mode
+ restricted \write18 enabled.
+ file:line:error style messages enabled.
+ %&-line parsing enabled.
+**RobertsonYanchenkoProjectFinalWriteUp.tex
+(./RobertsonYanchenkoProjectFinalWriteUp.tex
+LaTeX2e <2015/01/01>
+Babel <3.9l> and hyphenation patterns for 79 languages loaded.
+(/usr/local/texlive/2015/texmf-dist/tex/latex/base/article.cls
+Document Class: article 2014/09/29 v1.4h Standard LaTeX document class
+(/usr/local/texlive/2015/texmf-dist/tex/latex/base/size10.clo
+File: size10.clo 2014/09/29 v1.4h Standard LaTeX file (size option)
+)
+\c@part=\count79
+\c@section=\count80
+\c@subsection=\count81
+\c@subsubsection=\count82
+\c@paragraph=\count83
+\c@subparagraph=\count84
+\c@figure=\count85
+\c@table=\count86
+\abovecaptionskip=\skip41
+\belowcaptionskip=\skip42
+\bibindent=\dimen102
+)
+(./nips15submit_e.sty
+(/usr/local/texlive/2015/texmf-dist/tex/latex/eso-pic/eso-pic.sty
+Package: eso-pic 2015/04/20 v2.0e eso-pic (RN)
+
+(/usr/local/texlive/2015/texmf-dist/tex/generic/oberdiek/atbegshi.sty
+Package: atbegshi 2011/10/05 v1.16 At begin shipout hook (HO)
+
+(/usr/local/texlive/2015/texmf-dist/tex/generic/oberdiek/infwarerr.sty
+Package: infwarerr 2010/04/08 v1.3 Providing info/warning/error messages (HO)
+)
+(/usr/local/texlive/2015/texmf-dist/tex/generic/oberdiek/ltxcmds.sty
+Package: ltxcmds 2011/11/09 v1.22 LaTeX kernel commands for general use (HO)
+)
+(/usr/local/texlive/2015/texmf-dist/tex/generic/oberdiek/ifpdf.sty
+Package: ifpdf 2011/01/30 v2.3 Provides the ifpdf switch (HO)
+Package ifpdf Info: pdfTeX in PDF mode is detected.
+))
+(/usr/local/texlive/2015/texmf-dist/tex/latex/graphics/keyval.sty
+Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
+\KV@toks@=\toks14
+)
+(/usr/local/texlive/2015/texmf-dist/tex/latex/xcolor/xcolor.sty
+Package: xcolor 2007/01/21 v2.11 LaTeX color extensions (UK)
+
+(/usr/local/texlive/2015/texmf-dist/tex/latex/latexconfig/color.cfg
+File: color.cfg 2007/01/18 v1.5 color configuration of teTeX/TeXLive
+)
+Package xcolor Info: Driver file: pdftex.def on input line 225.
+
+(/usr/local/texlive/2015/texmf-dist/tex/latex/pdftex-def/pdftex.def
+File: pdftex.def 2011/05/27 v0.06d Graphics/color for pdfTeX
+\Gread@gobject=\count87
+)
+Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1337.
+Package xcolor Info: Model `hsb' substituted by `rgb' on input line 1341.
+Package xcolor Info: Model `RGB' extended on input line 1353.
+Package xcolor Info: Model `HTML' substituted by `rgb' on input line 1355.
+Package xcolor Info: Model `Hsb' substituted by `hsb' on input line 1356.
+Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1357.
+Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1358.
+Package xcolor Info: Model `Gray' substituted by `gray' on input line 1359.
+Package xcolor Info: Model `wave' substituted by `hsb' on input line 1360.
+))
+\nipsrulerbox=\box26
+\nipsrulercount=\count88
+\nipsruleroffset=\dimen103
+\cv@lineheight=\dimen104
+\cv@boxheight=\dimen105
+\cv@tmpbox=\box27
+\cv@refno=\count89
+\cv@tot=\count90
+\cv@tmpc@=\count91
+\cv@tmpc=\count92
+)
+(/usr/local/texlive/2015/texmf-dist/tex/latex/hyperref/hyperref.sty
+Package: hyperref 2012/11/06 v6.83m Hypertext links for LaTeX
+
+(/usr/local/texlive/2015/texmf-dist/tex/generic/oberdiek/hobsub-hyperref.sty
+Package: hobsub-hyperref 2012/05/28 v1.13 Bundle oberdiek, subset hyperref (HO)
+
+
+(/usr/local/texlive/2015/texmf-dist/tex/generic/oberdiek/hobsub-generic.sty
+Package: hobsub-generic 2012/05/28 v1.13 Bundle oberdiek, subset generic (HO)
+Package: hobsub 2012/05/28 v1.13 Construct package bundles (HO)
+Package hobsub Info: Skipping package `infwarerr' (already loaded).
+Package hobsub Info: Skipping package `ltxcmds' (already loaded).
+Package: ifluatex 2010/03/01 v1.3 Provides the ifluatex switch (HO)
+Package ifluatex Info: LuaTeX not detected.
+Package: ifvtex 2010/03/01 v1.5 Detect VTeX and its facilities (HO)
+Package ifvtex Info: VTeX not detected.
+Package: intcalc 2007/09/27 v1.1 Expandable calculations with integers (HO)
+Package hobsub Info: Skipping package `ifpdf' (already loaded).
+Package: etexcmds 2011/02/16 v1.5 Avoid name clashes with e-TeX commands (HO)
+Package etexcmds Info: Could not find \expanded.
+(etexcmds)             That can mean that you are not using pdfTeX 1.50 or
+(etexcmds)             that some package has redefined \expanded.
+(etexcmds)             In the latter case, load this package earlier.
+Package: kvsetkeys 2012/04/25 v1.16 Key value parser (HO)
+Package: kvdefinekeys 2011/04/07 v1.3 Define keys (HO)
+Package: pdftexcmds 2011/11/29 v0.20 Utility functions of pdfTeX for LuaTeX (HO
+)
+Package pdftexcmds Info: LuaTeX not detected.
+Package pdftexcmds Info: \pdf@primitive is available.
+Package pdftexcmds Info: \pdf@ifprimitive is available.
+Package pdftexcmds Info: \pdfdraftmode found.
+Package: pdfescape 2011/11/25 v1.13 Implements pdfTeX's escape features (HO)
+Package: bigintcalc 2012/04/08 v1.3 Expandable calculations on big integers (HO
+)
+Package: bitset 2011/01/30 v1.1 Handle bit-vector datatype (HO)
+Package: uniquecounter 2011/01/30 v1.2 Provide unlimited unique counter (HO)
+)
+Package hobsub Info: Skipping package `hobsub' (already loaded).
+Package: letltxmacro 2010/09/02 v1.4 Let assignment for LaTeX macros (HO)
+Package: hopatch 2012/05/28 v1.2 Wrapper for package hooks (HO)
+Package: xcolor-patch 2011/01/30 xcolor patch
+Package: atveryend 2011/06/30 v1.8 Hooks at the very end of document (HO)
+Package atveryend Info: \enddocument detected (standard20110627).
+Package hobsub Info: Skipping package `atbegshi' (already loaded).
+Package: refcount 2011/10/16 v3.4 Data extraction from label references (HO)
+Package: hycolor 2011/01/30 v1.7 Color options for hyperref/bookmark (HO)
+)
+(/usr/local/texlive/2015/texmf-dist/tex/generic/ifxetex/ifxetex.sty
+Package: ifxetex 2010/09/12 v0.6 Provides ifxetex conditional
+)
+(/usr/local/texlive/2015/texmf-dist/tex/latex/oberdiek/auxhook.sty
+Package: auxhook 2011/03/04 v1.3 Hooks for auxiliary files (HO)
+)
+(/usr/local/texlive/2015/texmf-dist/tex/latex/oberdiek/kvoptions.sty
+Package: kvoptions 2011/06/30 v3.11 Key value format for package options (HO)
+)
+\@linkdim=\dimen106
+\Hy@linkcounter=\count93
+\Hy@pagecounter=\count94
+
+(/usr/local/texlive/2015/texmf-dist/tex/latex/hyperref/pd1enc.def
+File: pd1enc.def 2012/11/06 v6.83m Hyperref: PDFDocEncoding definition (HO)
+)
+\Hy@SavedSpaceFactor=\count95
+
+(/usr/local/texlive/2015/texmf-dist/tex/latex/latexconfig/hyperref.cfg
+File: hyperref.cfg 2002/06/06 v1.2 hyperref configuration of TeXLive
+)
+Package hyperref Info: Hyper figures OFF on input line 4443.
+Package hyperref Info: Link nesting OFF on input line 4448.
+Package hyperref Info: Hyper index ON on input line 4451.
+Package hyperref Info: Plain pages OFF on input line 4458.
+Package hyperref Info: Backreferencing OFF on input line 4463.
+Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
+Package hyperref Info: Bookmarks ON on input line 4688.
+\c@Hy@tempcnt=\count96
+
+(/usr/local/texlive/2015/texmf-dist/tex/latex/url/url.sty
+\Urlmuskip=\muskip10
+Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
+)
+LaTeX Info: Redefining \url on input line 5041.
+\XeTeXLinkMargin=\dimen107
+\Fld@menulength=\count97
+\Field@Width=\dimen108
+\Fld@charsize=\dimen109
+Package hyperref Info: Hyper figures OFF on input line 6295.
+Package hyperref Info: Link nesting OFF on input line 6300.
+Package hyperref Info: Hyper index ON on input line 6303.
+Package hyperref Info: backreferencing OFF on input line 6310.
+Package hyperref Info: Link coloring OFF on input line 6315.
+Package hyperref Info: Link coloring with OCG OFF on input line 6320.
+Package hyperref Info: PDF/A mode OFF on input line 6325.
+LaTeX Info: Redefining \ref on input line 6365.
+LaTeX Info: Redefining \pageref on input line 6369.
+\Hy@abspage=\count98
+\c@Item=\count99
+\c@Hfootnote=\count100
+)
+
+Package hyperref Message: Driver (autodetected): hpdftex.
+
+(/usr/local/texlive/2015/texmf-dist/tex/latex/hyperref/hpdftex.def
+File: hpdftex.def 2012/11/06 v6.83m Hyperref driver for pdfTeX
+\Fld@listcount=\count101
+\c@bookmark@seq@number=\count102
+
+(/usr/local/texlive/2015/texmf-dist/tex/latex/oberdiek/rerunfilecheck.sty
+Package: rerunfilecheck 2011/04/15 v1.7 Rerun checks for auxiliary files (HO)
+Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
+82.
+)
+\Hy@SectionHShift=\skip43
+)
+(/usr/local/texlive/2015/texmf-dist/tex/latex/float/float.sty
+Package: float 2001/11/08 v1.3d Float enhancements (AL)
+\c@float@type=\count103
+\float@exts=\toks15
+\float@box=\box28
+\@float@everytoks=\toks16
+\@floatcapt=\box29
+)
+(/usr/local/texlive/2015/texmf-dist/tex/latex/graphics/graphicx.sty
+Package: graphicx 2014/10/28 v1.0g Enhanced LaTeX Graphics (DPC,SPQR)
+
+(/usr/local/texlive/2015/texmf-dist/tex/latex/graphics/graphics.sty
+Package: graphics 2014/10/28 v1.0p Standard LaTeX Graphics (DPC,SPQR)
+
+(/usr/local/texlive/2015/texmf-dist/tex/latex/graphics/trig.sty
+Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
+)
+(/usr/local/texlive/2015/texmf-dist/tex/latex/latexconfig/graphics.cfg
+File: graphics.cfg 2010/04/23 v1.9 graphics configuration of TeX Live
+)
+Package graphics Info: Driver file: pdftex.def on input line 94.
+)
+\Gin@req@height=\dimen110
+\Gin@req@width=\dimen111
+)
+(/usr/local/texlive/2015/texmf-dist/tex/latex/caption/caption.sty
+Package: caption 2013/05/02 v3.3-89 Customizing captions (AR)
+
+(/usr/local/texlive/2015/texmf-dist/tex/latex/caption/caption3.sty
+Package: caption3 2013/05/02 v1.6-88 caption3 kernel (AR)
+Package caption3 Info: TeX engine: e-TeX on input line 57.
+\captionmargin=\dimen112
+\captionmargin@=\dimen113
+\captionwidth=\dimen114
+\caption@tempdima=\dimen115
+\caption@indent=\dimen116
+\caption@parindent=\dimen117
+\caption@hangindent=\dimen118
+)
+\c@ContinuedFloat=\count104
+Package caption Info: float package is loaded.
+Package caption Info: hyperref package is loaded.
+)
+(/usr/local/texlive/2015/texmf-dist/tex/latex/caption/subcaption.sty
+Package: subcaption 2013/02/03 v1.1-62 Sub-captions (AR)
+\c@subfigure=\count105
+\c@subtable=\count106
+)
+(/usr/local/texlive/2015/texmf-dist/tex/latex/capt-of/capt-of.sty
+Package: capt-of 2009/12/29 v0.2 standard captions outside of floats
+)
+(/usr/local/texlive/2015/texmf-dist/tex/latex/amsfonts/amsfonts.sty
+Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
+\@emptytoks=\toks17
+\symAMSa=\mathgroup4
+\symAMSb=\mathgroup5
+LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
+(Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
+)
+Package hyperref Info: Option `colorlinks' set `true' on input line 37.
+
+
+Package hyperref Warning: Option `bookmarks' has already been used,
+(hyperref)                setting the option has no effect on input line 37.
+
+(./RobertsonYanchenkoProjectFinalWriteUp.aux
+
+LaTeX Warning: Label ` fig7' multiply defined.
+
+)
+\openout1 = `RobertsonYanchenkoProjectFinalWriteUp.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 46.
+LaTeX Font Info:    ... okay on input line 46.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 46.
+LaTeX Font Info:    ... okay on input line 46.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 46.
+LaTeX Font Info:    ... okay on input line 46.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 46.
+LaTeX Font Info:    ... okay on input line 46.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 46.
+LaTeX Font Info:    ... okay on input line 46.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 46.
+LaTeX Font Info:    ... okay on input line 46.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 46.
+LaTeX Font Info:    ... okay on input line 46.
+\AtBeginShipoutBox=\box30
+ (/usr/local/texlive/2015/texmf-dist/tex/context/base/supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count107
+\scratchdimen=\dimen119
+\scratchbox=\box31
+\nofMPsegments=\count108
+\nofMParguments=\count109
+\everyMPshowfont=\toks18
+\MPscratchCnt=\count110
+\MPscratchDim=\dimen120
+\MPnumerator=\count111
+\makeMPintoPDFobject=\count112
+\everyMPtoPDFconversion=\toks19
+)
+Package hyperref Info: Link coloring ON on input line 46.
+ (/usr/local/texlive/2015/texmf-dist/tex/latex/hyperref/nameref.sty
+Package: nameref 2012/10/27 v2.43 Cross-referencing by name of section
+
+(/usr/local/texlive/2015/texmf-dist/tex/generic/oberdiek/gettitlestring.sty
+Package: gettitlestring 2010/12/03 v1.4 Cleanup title references (HO)
+)
+\c@section@level=\count113
+)
+LaTeX Info: Redefining \ref on input line 46.
+LaTeX Info: Redefining \pageref on input line 46.
+LaTeX Info: Redefining \nameref on input line 46.
+
+(./RobertsonYanchenkoProjectFinalWriteUp.out)
+(./RobertsonYanchenkoProjectFinalWriteUp.out)
+\@outlinefile=\write3
+\openout3 = `RobertsonYanchenkoProjectFinalWriteUp.out'.
+
+
+(/usr/local/texlive/2015/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
+Package: epstopdf-base 2010/02/09 v2.5 Base part for package epstopdf
+
+(/usr/local/texlive/2015/texmf-dist/tex/latex/oberdiek/grfext.sty
+Package: grfext 2010/08/19 v1.1 Manage graphics extensions (HO)
+)
+Package grfext Info: Graphics extension search list:
+(grfext)             [.png,.pdf,.jpg,.mps,.jpeg,.jbig2,.jb2,.PNG,.PDF,.JPG,.JPE
+G,.JBIG2,.JB2,.eps]
+(grfext)             \AppendGraphicsExtensions on input line 452.
+
+(/usr/local/texlive/2015/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
+File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
+e
+))
+Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: End \AtBeginDocument code.
+LaTeX Font Info:    Try loading font information for U+msa on input line 50.
+
+(/usr/local/texlive/2015/texmf-dist/tex/latex/amsfonts/umsa.fd
+File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+)
+LaTeX Font Info:    Try loading font information for U+msb on input line 50.
+
+(/usr/local/texlive/2015/texmf-dist/tex/latex/amsfonts/umsb.fd
+File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+)
+Underfull \hbox (badness 10000) in paragraph at lines 63--63
+[][][]\OT1/cmr/m/n/9 Music Com-po-si-tion for Dum-mies, [][]$\OT1/cmtt/m/n/9 ht
+tp : / / www . dummies . com / how-[]to / content /
+ []
+
+[1
+
+{/usr/local/texlive/2015/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
+<Model1.jpg, id=94, 828.84656pt x 333.49594pt>
+File: Model1.jpg Graphic file (type jpg)
+ <use Model1.jpg>
+Package pdftex.def Info: Model1.jpg used on input line 83.
+(pdftex.def)             Requested size: 290.10063pt x 116.72531pt.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [2]
+<Model2.jpg, id=109, 837.1275pt x 365.86688pt>
+File: Model2.jpg Graphic file (type jpg)
+ <use Model2.jpg>
+Package pdftex.def Info: Model2.jpg used on input line 98.
+(pdftex.def)             Requested size: 292.99901pt x 128.05531pt.
+
+<Model3.jpg, id=112, 946.28531pt x 480.29437pt>
+File: Model3.jpg Graphic file (type jpg)
+ <use Model3.jpg>
+Package pdftex.def Info: Model3.jpg used on input line 111.
+(pdftex.def)             Requested size: 331.20482pt x 168.10555pt.
+ [3 <./Model1.jpg> <./Model2.jpg>]
+<JupiterOriginal-cropped.pdf, id=127, 555.0039pt x 235.15163pt>
+File: JupiterOriginal-cropped.pdf Graphic file (type pdf)
+
+<use JupiterOriginal-cropped.pdf>
+Package pdftex.def Info: JupiterOriginal-cropped.pdf used on input line 132.
+(pdftex.def)             Requested size: 333.00491pt x 141.09204pt.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [4 <./Model3.jpg>] <clef.jpg, id=136, 574.145pt x 395.4775pt>
+File: clef.jpg Graphic file (type jpg)
+ <use clef.jpg>
+Package pdftex.def Info: clef.jpg used on input line 139.
+(pdftex.def)             Requested size: 344.48965pt x 237.28833pt.
+
+<JupiterRemix-cropped.pdf, id=138, 553.4951pt x 227.31183pt>
+File: JupiterRemix-cropped.pdf Graphic file (type pdf)
+
+<use JupiterRemix-cropped.pdf>
+Package pdftex.def Info: JupiterRemix-cropped.pdf used on input line 151.
+(pdftex.def)             Requested size: 332.09961pt x 136.38814pt.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [5 <./JupiterOriginal-cropped.pdf> <./clef.jpg>]
+<JupiterRemix2-cropped.pdf, id=172, 554.30042pt x 226.03427pt>
+File: JupiterRemix2-cropped.pdf Graphic file (type pdf)
+
+<use JupiterRemix2-cropped.pdf>
+Package pdftex.def Info: JupiterRemix2-cropped.pdf used on input line 168.
+(pdftex.def)             Requested size: 332.58281pt x 135.6216pt.
+ [6 <./JupiterRemix-cropped.pdf> <./JupiterRemix2-cropped.pdf>]
+<JupiterRemix2H-cropped.pdf, id=232, 550.31598pt x 237.43346pt>
+File: JupiterRemix2H-cropped.pdf Graphic file (type pdf)
+
+<use JupiterRemix2H-cropped.pdf>
+Package pdftex.def Info: JupiterRemix2H-cropped.pdf used on input line 182.
+(pdftex.def)             Requested size: 330.19214pt x 142.46115pt.
+
+<JupiterOriginalVelocity.pdf, id=239, 433.62pt x 289.08pt>
+File: JupiterOriginalVelocity.pdf Graphic file (type pdf)
+
+<use JupiterOriginalVelocity.pdf>
+Package pdftex.def Info: JupiterOriginalVelocity.pdf used on input line 200.
+(pdftex.def)             Requested size: 195.1272pt x 130.0848pt.
+
+<JupiterModel1Velocity.pdf, id=240, 433.62pt x 289.08pt>
+File: JupiterModel1Velocity.pdf Graphic file (type pdf)
+
+<use JupiterModel1Velocity.pdf>
+Package pdftex.def Info: JupiterModel1Velocity.pdf used on input line 206.
+(pdftex.def)             Requested size: 195.1272pt x 130.0848pt.
+
+<JupiterModel2Velocity.pdf, id=241, 433.62pt x 289.08pt>
+File: JupiterModel2Velocity.pdf Graphic file (type pdf)
+
+<use JupiterModel2Velocity.pdf>
+Package pdftex.def Info: JupiterModel2Velocity.pdf used on input line 212.
+(pdftex.def)             Requested size: 195.1272pt x 130.0848pt.
+
+<JupiterModel3Velocity.pdf, id=242, 433.62pt x 289.08pt>
+File: JupiterModel3Velocity.pdf Graphic file (type pdf)
+
+<use JupiterModel3Velocity.pdf>
+Package pdftex.def Info: JupiterModel3Velocity.pdf used on input line 218.
+(pdftex.def)             Requested size: 195.1272pt x 130.0848pt.
+
+Underfull \vbox (badness 1490) has occurred while \output is active []
+
+ [7 <./JupiterRemix2H-cropped.pdf>] <SurveyFav.pdf, id=279, 433.62pt x 289.08pt
+>
+File: SurveyFav.pdf Graphic file (type pdf)
+
+<use SurveyFav.pdf>
+Package pdftex.def Info: SurveyFav.pdf used on input line 238.
+(pdftex.def)             Requested size: 216.80946pt x 144.53964pt.
+
+Overfull \hbox (18.06697pt too wide) in paragraph at lines 238--239
+ [][] 
+ []
+
+<SurveyGuesses.pdf, id=280, 433.62pt x 289.08pt>
+File: SurveyGuesses.pdf Graphic file (type pdf)
+ <use SurveyGuesses.pdf>
+Package pdftex.def Info: SurveyGuesses.pdf used on input line 244.
+(pdftex.def)             Requested size: 216.80946pt x 144.53964pt.
+
+Overfull \hbox (18.06697pt too wide) in paragraph at lines 244--245
+ [][] 
+ []
+
+[8 <./JupiterOriginalVelocity.pdf> <./JupiterModel1Velocity.pdf> <./JupiterMode
+l2Velocity.pdf> <./JupiterModel3Velocity.pdf>] [9 <./SurveyFav.pdf> <./SurveyGu
+esses.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 272--274
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 275--276
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 280--283
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 284--285
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 285--287
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 288--289
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 289--291
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 305--306
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 307--308
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 312--313
+
+ []
+
+[10]
+Underfull \hbox (badness 10000) in paragraph at lines 317--318
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 322--323
+
+ []
+
+<PachelbelOriginal-cropped.pdf, id=333, 557.04706pt x 227.3815pt>
+File: PachelbelOriginal-cropped.pdf Graphic file (type pdf)
+
+<use PachelbelOriginal-cropped.pdf>
+Package pdftex.def Info: PachelbelOriginal-cropped.pdf used on input line 330.
+(pdftex.def)             Requested size: 334.23082pt x 136.42995pt.
+
+<PachelbelRemix-cropped.pdf, id=334, 553.31615pt x 233.65031pt>
+File: PachelbelRemix-cropped.pdf Graphic file (type pdf)
+
+<use PachelbelRemix-cropped.pdf>
+Package pdftex.def Info: PachelbelRemix-cropped.pdf used on input line 337.
+(pdftex.def)             Requested size: 331.99225pt x 140.19125pt.
+
+Underfull \vbox (badness 1867) has occurred while \output is active []
+
+ [11 <./PachelbelOriginal-cropped.pdf>]
+<PachelbelRemix2-cropped.pdf, id=357, 554.51674pt x 230.11319pt>
+File: PachelbelRemix2-cropped.pdf Graphic file (type pdf)
+
+<use PachelbelRemix2-cropped.pdf>
+Package pdftex.def Info: PachelbelRemix2-cropped.pdf used on input line 344.
+(pdftex.def)             Requested size: 332.7126pt x 138.06897pt.
+
+<PachelbelRemix2H-cropped.pdf, id=358, 557.0794pt x 234.11996pt>
+File: PachelbelRemix2H-cropped.pdf Graphic file (type pdf)
+
+<use PachelbelRemix2H-cropped.pdf>
+Package pdftex.def Info: PachelbelRemix2H-cropped.pdf used on input line 351.
+(pdftex.def)             Requested size: 334.25023pt x 140.47305pt.
+
+<CannonOriginalVelocity.pdf, id=359, 433.62pt x 289.08pt>
+File: CannonOriginalVelocity.pdf Graphic file (type pdf)
+
+<use CannonOriginalVelocity.pdf>
+Package pdftex.def Info: CannonOriginalVelocity.pdf used on input line 360.
+(pdftex.def)             Requested size: 195.1272pt x 130.0848pt.
+
+<CannonModel1Velocity.pdf, id=360, 433.62pt x 289.08pt>
+File: CannonModel1Velocity.pdf Graphic file (type pdf)
+
+<use CannonModel1Velocity.pdf>
+Package pdftex.def Info: CannonModel1Velocity.pdf used on input line 366.
+(pdftex.def)             Requested size: 195.1272pt x 130.0848pt.
+
+<CannonModel2Velocity.pdf, id=361, 433.62pt x 289.08pt>
+File: CannonModel2Velocity.pdf Graphic file (type pdf)
+
+<use CannonModel2Velocity.pdf>
+Package pdftex.def Info: CannonModel2Velocity.pdf used on input line 372.
+(pdftex.def)             Requested size: 195.1272pt x 130.0848pt.
+
+<CannonModel3Velocity.pdf, id=362, 433.62pt x 289.08pt>
+File: CannonModel3Velocity.pdf Graphic file (type pdf)
+
+<use CannonModel3Velocity.pdf>
+Package pdftex.def Info: CannonModel3Velocity.pdf used on input line 378.
+(pdftex.def)             Requested size: 195.1272pt x 130.0848pt.
+ [12 <./PachelbelRemix-cropped.pdf> <./PachelbelRemix2-cropped.pdf> <./Pachelbe
+lRemix2H-cropped.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 390--391
+[]\OT1/cmr/m/n/10 Music Com-po-si-tion for Dum-mies, http://www.dummies.com/how
+-
+ []
+
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 393.
+[13 <./CannonOriginalVelocity.pdf> <./CannonModel1Velocity.pdf> <./CannonModel2
+Velocity.pdf> <./CannonModel3Velocity.pdf>]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 393.
+
+(./RobertsonYanchenkoProjectFinalWriteUp.aux)
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 393.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 393.
+Package rerunfilecheck Info: File `RobertsonYanchenkoProjectFinalWriteUp.out' h
+as not changed.
+(rerunfilecheck)             Checksum: BF56E0424AFBB83D5A29B5220FC2CA83;1205.
+
+
+LaTeX Warning: There were multiply-defined labels.
+
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 393.
+ ) 
+Here is how much of TeX's memory you used:
+ 7047 strings out of 493089
+ 108411 string characters out of 6134842
+ 196700 words of memory out of 5000000
+ 10385 multiletter control sequences out of 15000+600000
+ 10846 words of font info for 42 fonts, out of 8000000 for 9000
+ 1141 hyphenation exceptions out of 8191
+ 37i,9n,39p,1786b,472s stack positions out of 5000i,500n,10000p,200000b,80000s
+</usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
+></usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb>
+</usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><
+/usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></
+usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></us
+r/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/
+local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/lo
+cal/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local
+/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/te
+xlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/local/texli
+ve/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texliv
+e/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/
+2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/local/texlive/2
+015/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt9.pfb></usr/local/texlive/201
+5/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
+Output written on RobertsonYanchenkoProjectFinalWriteUp.pdf (13 pages, 1026065 
+bytes).
+PDF statistics:
+ 515 PDF objects out of 1000 (max. 8388607)
+ 416 compressed objects within 5 object streams
+ 55 named destinations out of 1000 (max. 500000)
+ 247 words of extra memory for PDF output out of 10000 (max. 10000000)
+

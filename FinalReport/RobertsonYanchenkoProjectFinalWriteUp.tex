@@ -7,6 +7,9 @@
 \usepackage{caption}
 \usepackage{subcaption}
 \usepackage{capt-of}
+\usepackage{amsfonts}
+
+%\font\tinyclef=musix20 scaled 500
 %\documentstyle[nips14submit_09,times,art10]{article} % For LaTeX 2.09
 
 
@@ -23,11 +26,22 @@ Duke University \\
 \texttt{megan.robertson@duke.edu} \\
 }
 
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+    pdftitle={Sharelatex Example},
+    bookmarks=true,
+    pdfpagemode=FullScreen,
+}
 
 \newcommand{\fix}{\marginpar{FIX}}
 \newcommand{\new}{\marginpar{NEW}}
 
 \nipsfinalcopy % Uncomment for camera-ready version
+
+
 
 \begin{document}
 
@@ -35,150 +49,184 @@ Duke University \\
 \maketitle
 
 \begin{abstract}
-We use Hidden Markov Models (HMM) to capture the latent elements involved in music creation. The observed states are the notes and velocity, volumes, of each note. The latent states include elements such as chord progression, dynamics and patterns.In this paper, we implement three different Hidden Markov Models and compare the resulting compositions for each model. These models are trained on various classical piano pieces, and the resulting compositions are compared.
+Hidden Markov Models (HMMs) are widely used models for sequential data with many varying applications.  In this project, we use HMMs to capture the latent elements involved in music creation. The observed states are the pitch and velocity (volume) of each note in an existing  song, while the latent states include elements such as chord progression, harmonics, dynamics and melody.  In this paper, we implement three different Hidden Markov Models and compare the resulting compositions for each model. These models are trained on various classical piano pieces, and the resulting compositions are compared.
 \end{abstract}
  
 \section{Introduction}
 
-Hidden Markov Models are known for their use in language applications such as speech recognition and handwriting recognition programs. However, it is also possible to use Hidden Markov Models in another language application, the language of music. This project serves as a platform to combine our shared interests of music and statistics. 
+Hidden Markov Models are known for their use in language applications such as speech recognition and handwriting recognition programs. Inspired by a recent homework assignment to use Hidden Markov Models to generate text, we wanted to explore how successful these same models would be in generating music.  The Thus,  this project served as a platform to combine our shared interests of music and statistics. 
 
-The project uses music data in the form of  Musical Instrument Digital Interface (MIDI) files. This interface creates a form of communication between computers and musical instruments that enables them to send instructions back and forth. MIDI files can contain multiple channels that store information about the notes and velocity of certain instruments. The files also contain information about when a particular note starts and stops. \footnote{MIDI Manufacturers Association, "An Introduction to MIDI"}. 
+The project used music data in the form of MIDI (Musical Instrument Digital Interface) files. This interface creates a form of communication between computers and musical instruments that enables them to send instructions back and forth. MIDI files can contain multiple channels that store information about the notes and velocities of different instruments.   Each note's pitch is coded as an integer between 0 and 127, where 60 refers to middle C.  The velocities are also coded as integers from 0 to 127. The files additionally contain information about when a particular note starts and stops. \footnote{MIDI Manufacturers Association, "An Introduction to MIDI"}. 
 
-Any musician or student of music can tell you that there is more to composing music beyond stringing together some notes with a catchy rhtyhm. There are many things to consider such as chord progression, dynamics, and patterns. It is importnat for a composer to be fmant for a composer to be familar with things such as the Circle of Fifths. There are also different forms, sonata, rondo, blues and more, that can be used in the creation of music.\footnote{Music Composition for Dummies, \url{http://www.dummies.com/how-to/content/music-composition-for-dummies-cheat-sheet.html}}
 
-However, the MIDI data does not capture all of the theory and ideas that create a composition. Therefore, we use Hidden Markov Models (HMMs) in order to capture both the observed states, the note/velocity information, as well as the latent variables, theory such as that described above. We utitilze three different HMMs and train them on classical piano pieces. The estimated parameters are then used to compose new pieces.
+Much thought and musical theory goes into composing any piece.  The notes much progress in a logical, harmonic way that is pleasing to the listener and thus the composer must pay close attention to the circle of fifths to determine which notes sound musically pleasing together.  Dissonance can be used to elicit specific moods in the piece but does not occur by chance.  In addition, the composer must use melody, harmonies and dynamics to create a piece of music which tells a story or conjures a specific emotion in the listener.  
+\footnote{Music Composition for Dummies, \url{http://www.dummies.com/how-to/content/music-composition-for-dummies-cheat-sheet.html}}
 
+However, the MIDI data of a note's pitch and velocity in sequential order does not capture all of the theory and ideas that create a composition. Therefore, we use Hidden Markov Models (HMMs) in order to model the latent variables, specifically the musical theory that goes into composing a piece. We utilize three different HMMs and train them on classical piano pieces. The estimated parameters are then used to generate new music based on the modeling of the original piece.  Our goal was to compare how successful each of the three HMMs was in generating a musically pleasing piece and how similar our generated music was to the original composition.
 
 \section{Methods}
 
-Classical piano pieces were used to train each of the models. In this paper we present the result forGustav Holt's Jupiter from "The Planets" and Johann Pachelbel's Canon. A piano arrangement of Jupiter was used as opposed to the orchestral piece. The MIDI files for these songs were converted to Comma Separated Value (CSV) files.\footnote{This was done using a program found at \url{http://www.fourmilab.ch/webtools/midicsv/}} 
+Classical piano pieces were used to train each of the models. In this paper we present the result for Gustav Holt's Jupiter from "The Planets" (arranged for piano) and Johann Pachelbel's Canon in D. The MIDI files for these songs were converted to Comma Separated Value (CSV) files.\footnote{This was done using a program found at \url{http://www.fourmilab.ch/webtools/midicsv/}} 
 
-The classical pieces were used to estimate the respective parameters of the models described below. In this training, the tempo, key signature and length of the original song were not changed. The only possible observed states were the velocities and notes present in the original pieces. Once the parameters had been estimated, they were used to generate a new piece of music. This process generates a CSV file of the new composition, and this file is then converted to a MIDI file using the same program as above. The files can then be played on a synsthesizer or a program such as GarageBand.
+The classical pieces were used to estimate the respective parameters of the models described below. In this training, the tempo, key signature and length of the original song were not changed. The only possible observed states were the velocities and notes present in the original pieces. We treated the pitch of each note and its velocity as independent variables.  Once the parameters had been estimated, they were used to generate a new piece of music. This process generates a CSV file of the new composition and this file was then converted back to a MIDI file using the same program as above. The files could then be played using a synthesizer or a program such as GarageBand.
 
-The three models used are described in the subsections below. They are a first order HMM, a second order HMM, and a first order HMM with two hidden states. In order to evaluate the performance of each model, twenty-two survey respondents determined which of the compositions they liked best for either Pachabel's Cannon or Holst's Jupiter. They also were provided with both the original Jupier and Cannon, and asked which of the original versions they thought inspired the remixes. 
+The three models that we considered were a first order HMM, a second order HMM and a first order HMM with two hidden states.  We used the Baum-Welch algorithm, in tandem with the forward and backward algorithms, to estimate the parameters in our model.  In all three models used the following parameters: the initial distribution, $\pi_i = \mathbb{P}(Z_1 = i)$, the transition matrix, $T_{ij} = \mathbb{P}(Z_{t+1} = j | Z_t = i)$ and the emission distribution, $\phi_i (X_t) = p(X_t | Z_t = i)$. For each of the three models, we assumed that $Z$ could take $m$ possible discrete states and that $X$ could take $k$  possible discrete states, where $1, \cdots, k$ corresponded to the note pitches or velocities occurring in the original piece.  For example, if the original piece had 10 different note pitches and 5 different velocities, $k=10$ for the HMM run on the observed notes (with each state corresponding to a specific one of those 10 unique pitches) and $k=5$ for the HMM run on the observed velocities.  The Baum-Welch algorithm was adjusted from the  first order form to take into the account the structure of the parameters in the second order and two hidden state models.   A new song was generated for each of the three models using both Jupiter and Pachelbel's Canon as the original song (the observed states).  In order to evaluate the performance of each model, twenty-two survey respondents determined which of the compositions generated using the three different HMMs they liked best, for either Pachelbel's Cannon or Holst's Jupiter. They also were provided with the original versions for both   Jupiter and Pachelbel's Cannon,and were asked which of the original versions they thought inspired the remixes. 
 
 \subsection {Model 1: First Order Hidden Markov Model}
 
-The simplest of the three models is the first order Hidden Markov Model. In this model, the observed values, $X_i$, are the notes and their velocity. The model has only one hidden state for each note/velocity pair, $Z_i$, and each hidden state only depends on the prior hidden state. 
+The simplest of the three models was the first order Hidden Markov Model. In this model, the observed values, $X_i$, were the notes' pitch or their velocity (modeled independently). The model had only one hidden state, $Z_i$, for each pitch or velocity  and each hidden state only depended on the prior hidden state (\autoref{oneGM}).
 
 \begin{figure}[H]
-\centering
-\caption{Graphical Model - First Order HMM}
+\begin{center}
+
+
 \includegraphics [scale = 0.35] {Model1.jpg}
+
+\caption{Graphical Model - First Order HMM \label{oneGM}}
+\end{center}
 \end{figure}
 
-The Baum-Welch Alogirithm was used to estimate the parameters of this model. For details of the derivations and algorithm see class notes. \footnote{Statistics 531, Duke University Spring 2016. Instructor: Jeff Miller}
+The Baum-Welch Algorithm as derived in class was used to estimate the parameters of this model. For details of the derivations and algorithm of this first order HMM see class notes.\footnote{Statistics 531, Duke University Spring 2016. Instructor: Jeff Miller}
  
 \subsection{Model 2: Second Order Hidden Markov Model}
 
-The second model expanded on Model 1 by assuming that each state also depended on the prior two states. This enables the model to capture the structure that is evolving over time in the piece. The Baum-Welch Algorithm was again used to estimate the parameters. The details of the algorithm for this model can be found in Mari and Schott's "Probabilistic and Statsitical Methods in Computer Science." \footnote{Jean-Francoix Mari and Rene Schott, "Probabilistic and Statistical Methods in Computer Science", Springer Science, pg. 161-167 and Brett Watson and Ah Chung Tsoi, "Second Order Hidden Markov Models for Speech Recognition", Univsersity of Queensland}.
+The second order HMM assumed that each hidden state  depended on the two previous  states (\autoref{2HMM}). This enabled the model to capture more of the musical structure inherent in the piece, since this structure was evolving over time and depended on more than just the previous note. The Baum-Welch Algorithm was again used to estimate the parameters, this time modified to accommodate the addition of a transition matrix, $T_{ijk} = \mathbb{P}[Z_t = k | Z_{t-1} = j, Z_{t-2} = i]$ which modeled the dependence of the current hidden state on the two previous hidden states. The details of the algorithm for this model can be found in Mari and Schott's "Probabilistic and Statsitical Methods in Computer Science"\footnote{Jean-Francoix Mari and Rene Schott, "Probabilistic and Statistical Methods in Computer Science", Springer Science, pg. 161-167 and Brett Watson and Ah Chung Tsoi, "Second Order Hidden Markov Models for Speech Recognition", Univsersity of Queensland}, with a summary of the main results in the Appendix (\autoref{2ndHMM}).
 
 \begin{figure}[H]
 \centering
-\caption{Graphical Model - Second Order HMM}
+
 \includegraphics [scale = 0.35] {Model2.jpg}
+\caption{Graphical Model - Second Order HMM\label{2HMM}}
 \end{figure}
 
 \subsection{Model 3: HMM with Two Hidden States}
 
-The final model expanded on the intital model by adding a second latent variable. This meta-state allows the model to capture additional aspects of the hidden states and the music generation process.  This processes might evolve at a rate different than the processes that are present in the observed states and one latent state. 
+The final model expanded on the initial model by adding a second hidden state (\autoref{3HMM}). This meta-state allowed the model to capture additional aspects of the hidden states and the music generation process.  This processes might evolve at a rate different than the processes that are present in the observed states and one latent state.  This HMM involved a specific form of the transition matrix that allowed for a more efficient  implementation of the derived Baum-Welch algorithm.  In particular, we assumed that the transition matrix factored as
+$$T_{ik, jl} = A_{ij}B_{jkl} = \mathbb{P}(R_t = j, S_t = l | R_{t-1} = i, S_{t-1} = k),$$
+where $A_{ij} = \mathbb{P}(R_t = j | R_{t-1} = i)$ and $B_{jkl} = \mathbb{P}(S_t = l | R_t = j, S_{t-1} = k)$.  A full derivation for the Baum-Welch algorithm for this model can also be found in the Appendix (\autoref{3rdHMM}).
 
 \begin{figure}[H]
 \centering
-\caption{Graphical Model - First Order HMM with Two Hidden States}
+
 \includegraphics [scale = 0.35] {Model3.jpg}
+\caption{Graphical Model - First Order HMM with Two Hidden States\label{3HMM}}
 \end{figure}
 
-For the derivation of the Baum-Welch algorithm for this model, see the Appendix.
 
 \section{Results}
 
 \subsection{Original Pieces}
 
-Of the four pieces used to train the various models, Jupiter and Pachabel's Cannon provided the best results. It is possible that these pieces performed the best because of their prominent melody from the beginning. For example, in Claude Debussy's Clair de Lune, the piece builds for a while before the melody emerges. Our models may not have worked well for this because they did not have the capability to capture the building structure and melody of the song. 
+The three models were originally trained on four different classical piano pieces (or orchestral pieces arranged for piano).  These four pieces included Claude Debussy's Clair de Lune and Antonin Dvorak's Largo from Symphony No. 9 ("The New World"), in addition to Jupiter and Pachelbel's Canon.  Of the four pieces, Jupiter and Pachelbel's Cannon provided the best results, for all of the HMMs considered. It is possible that these pieces performed the best because of their prominent melody from the beginning. For example, in  Clair de Lune, the piece builds for a while before the melody emerges, while the version of Jupiter that we used to train the piece featured just the main melody and so did not have to build over a long period of time. Our models may not have worked well for this because they did not have the capability to capture the building structure and melody of the song over a long stretch of notes.  
+
+Both Jupiter and Pachelbel's Cannon are well-known classical pieces whose themes occur frequently in advertisements and other media forms. The two pieces have a logical progression. It is obvious that these pieces are structurally sound and musically cohesive given their popularity. 
+
+ A sample of the sheet music for the first 13 measures of Jupiter in it's original form is included below (\autoref{Jorig}).  The top row of each line is played by the right hand of the piano player and is written in Treble Clef (\autoref{keys}), while the bottom row of each line is played by the left hand and is written in Bass Clef  (lower than Treble Clef)\footnote{\url{http://www.guitarsite.de/p1042.htm}}. The two lines are played at the same time, thus there are 13 measures included in this original sheet music.  A sample of the sheet music for Pachelbel's Canon is included in the Appendix (\autoref{Jorig}).
+ 
+
+ 
+ 
+ \begin{figure}[H]
+\centering
+
+\includegraphics [scale = 0.6] {JupiterOriginal-cropped.pdf}
+\caption{Jupiter - Original Song\label{Jorig}}
+\end{figure}
 
 \begin{figure}[H]
 \centering
-\caption{Jupiter - Original Song}
-\includegraphics [scale = 0.6] {JupiterOriginal-cropped.pdf}
+
+\includegraphics [scale = 0.6] {clef.jpg}
+\caption{Musical Clefs: Treble Clef and Bass Clef\label{keys}}
 \end{figure}
 
-Both Jupiter and Pachabel's Cannon are well-known classical pieces whose themes occur frequently in advertisements and other media forms. The two pieces have a logical progression. It is obvious that these pieces are structurally sound and musically cohesive given their notoriety. 
 
 \subsection{First Order Hidden Markov Model}
 
-The Jupiter remix created using the first order Hidden Markov Model had lots of octave and interval jumps that were not present in the original song. For example, this behavior can be seen in measures one, three and four. In additoin, there are more rests in the first two lines of the remix and there are also more quarter and half notes. The melody of the song seems to be distributed about equally between the left and the right hands. The left hand controlled most of the melody in the original composition. There is also no resolution in the remix.
+The Jupiter remix created using the first order Hidden Markov Model had lots of octave and large interval jumps that were not present in the original song. For example, in measures one, three and four in the sheet music for the piece generated by this model (\autoref{J1}),  pitches jump over an octave or more from one note to the next.  In addition, there are more rests in the first two lines of the remix and there are also more quarter and half notes than occurred in the original piece. The melody of the song seems to be distributed about equally between the left and the right hands, while in the original composition the right hand had the entire melody, while the left hand played the accompaniment.  There is also no musical resolution at the end of the remix.
 
 \begin{figure}[H]
 \centering
-\caption{Jupiter Remix - Model 1}
+
 \includegraphics [scale = 0.6] {JupiterRemix-cropped.pdf}
+\caption{Jupiter Remix - Model 1\label{J1}}
 \end{figure}
 
-The remixed version of Pachabel's Cannon has less sixteenth notes but more dotted notes. Pachabel's Cannon consists of mostly eighth or sixteenth notes for the melody. There are also more rests in this remixed version than there are in the original. Finally, there are large octave jumps and jumps of large intervals in this version.
+The remixed version of Pachelbel's Cannon had less sixteenth notes but more dotted notes than the original piece. Pachelbel's Cannon consists of mostly eighth or sixteenth notes for the melody. There are also more rests in this remixed version than there are in the original. Finally, there are large octave jumps and jumps of large intervals in this version (\autoref{P1}).
 
-The first order HMM compositions sounded very different from the original compositions. This probably occurs because the model does not capture enough of the overall structure. Thus there are some notes that occur together and should not. For example, the melody for Pachabel's cannon builds over several measures. The first order HMM only has the state depend on the former state. A model that captured more structure could have the potential to incorporate the whole chord from the previous state. 
+The first order HMM compositions sounded very different from the original compositions. This probably occurs because the model does not capture enough of the overall structure or the original piece. Thus there are some notes that occur together that musically should not, as there is no dissonance in the originals. For example, the melody for Pachelbel's cannon builds over several measures, yet our first order HMM was not able to capture enough of this building structure to generate an analogous progressing melody. 
+
 
 \subsection{Second Order Hidden Markov Model}
 
-The Juptier composition created using the second order Hidden Markov Model is an improvement on the first remix. It still has some large interval jumps, but fewer jumps than that from Model 1. The chords also make more sense in the piece, but there is less dissonance. The piece also has fewer rests than the first order composition, but more rests than i nthe original composition.
+The Jupiter composition created using the second order Hidden Markov Model is an improvement on the first remix. It still has some large interval jumps in terms of pitch, but fewer jumps than that from Model 1 (\autoref{J2}). The chords also make more sense in the piece and there is less dissonance. The piece also has fewer rests than the first order composition, but more rests than in the original composition.
 
 
 \begin{figure}[H]
 \centering
-\caption{Jupiter Remix - Model 2}
+
 \includegraphics [scale = 0.6] {JupiterRemix2-cropped.pdf}
+\caption{Jupiter Remix - Model 2\label{J2}}
 \end{figure}
 
-The Cannon composition created using the second order Hidden Markov Model has more sixteenth notes than the first remix, but fewer sixteenth notes than the original version. There are still awkward interval jumps present in the piece. Overall, the chords made more sense and there was less dissonance in this piece than the first remix. The progression of the song seemed to be more logical than the first model. This probably occured because the second order HMM captures more structure than the first order HMM.
+The Cannon composition created using the second order Hidden Markov Model has more sixteenth notes than the first remix, but fewer sixteenth notes than the original version ({\autoref{P2}}). There are still awkward interval jumps present in the piece. Overall, the chords made more sense and there was less dissonant in this piece than the first remix. The progression of the song seemed to be more logical than the first model. This probably occurred because the second order HMM captures more structure than the first order HMM.
 
 \subsection{First Order Hidden Markov Model with Two Hidden States}
 
-OF the three remixes, this version had the fewest rests of the remixed compositions, but more than the original version. It also contained large interval jumps. These jumps between notes were larger than the noes that occured in the original song, but were smaller than the jumps in the other versions. 
+Of the three remixes, this version had the fewest rests of the remixed compositions, but more than the original version (\autoref{J3}). It also contained large interval jumps. These jumps between notes were larger than those that occurred in the original song, but were smaller than the jumps in the other versions. 
 
 
 \begin{figure}[H]
 \centering
-\caption{Jupiter Remix - Model 2}
+
 \includegraphics [scale = 0.6] {JupiterRemix2H-cropped.pdf}
+\caption{Jupiter Remix - Model 3\label{J3}}
 \end{figure}
 
-The two latent state version had more eighth and sixteenth notes than the other two remix versions. However, it still did not have as many as the original version. There are still large jumps in between notes. 
+Likewise, for Pachelbel's Canon, the two latent state version had more eighth and sixteenth notes than the other two remix versions (\autoref{P3}). However, it still did not have as many as the original version and there were still large jumps in between notes. 
 
-The following figures display the velocities for successive notes of the original compositions and the remixes. The same figures presented in the Results section and the below can be found in the Appendix for the Pachelbel's Cannon application. 
+The following figures (\autoref{JV0},\autoref{JV1}, \autoref{JV2}, \autoref{JV3}) display the velocities for successive notes of the original compositions and the remixes. The same figures presented in the Results section and the below can be found in the Appendix for the Pachelbel's Cannon application (\autoref{PV0}). 
+
+
+For the original Jupiter piece, the velocity appears to be approximately randomly scattered about 80 with a few outliers but no apparent structure.  For Model 1 and Model 2, however, there appears to be significant structure in the velocity over time as there appear to be straight lines of constant velocity that are not present in the original piece.  Finally, Model 3 (2 hidden states) appears to best replicate the velocity found in the original piece, as the velocities again appear randomly scattered, though perhaps with slightly more structure than originally.
+
+For Pachelbel's Canon, the velocities increase to about the middle of the piece and then decrease again in a parabola-like shape.  None of the three models are able to recreate this pattern in the velocity and they all have significant, straight structure and much less variation in velocity than the original piece.
+
 
 \begin{figure}[ht] 
   \label{ fig7} 
   \begin{minipage}[b]{0.5\linewidth}
     \centering
     \includegraphics[scale = 0.45]{JupiterOriginalVelocity.pdf} 
-    \caption{Initial condition} 
+    \caption{Initial condition\label{JV0}} 
     \vspace{4ex}
   \end{minipage}%%
   \begin{minipage}[b]{0.5\linewidth}
     \centering
     \includegraphics[scale = 0.45]{JupiterModel1Velocity.pdf} 
-    \caption{First Order HMM} 
+    \caption{First Order HMM\label{JV1}} 
     \vspace{4ex}
   \end{minipage} 
   \begin{minipage}[b]{0.5\linewidth}
     \centering
     \includegraphics[scale = 0.45]{JupiterModel2Velocity.pdf} 
-    \caption{Second Order HMM} 
+    \caption{Second Order HMM\label{JV2}} 
     \vspace{4ex}
   \end{minipage}%% 
   \begin{minipage}[b]{0.5\linewidth}
     \centering
     \includegraphics[scale = 0.45]{JupiterModel3Velocity.pdf} 
-    \caption{Two Hidden States} 
+    \caption{Two Hidden States\label{JV3}} 
     \vspace{4ex}
   \end{minipage} 
 \end{figure}
 
 \subsection{Summary}
-Overall, the remix created using the second order Hidden Markov Model appeared to have the best structure of all of the remixes. On the other hand, the remix created using the first order Hidden Markov Model with two latent states had better chords. In all of the new compositions, the melody seemed to be split between the two hands. The models did not catch the general structure that lower notes, those played by the right hand, were longer in the original versions of the pieces. Most of melody was in the right hand notes. In all of the models, the dynamics were modeled independently and as a result the dynamics did always occur in a logical fashion. There are many instances where certain notes are uncomfortably loud compared to the rest of the piece. 
+Overall, the remix created using the second order Hidden Markov Model appeared to have the best musical structure of all of the remixes. On the other hand, the remix created using the first order Hidden Markov Model with two latent states had better musical chords. In all of the new compositions, the melody seemed to be split between the two hands. The models did not catch the general structure that lower notes, those played by the left hand, were longer in the original versions of the pieces and tended to be accompaniment, while most of the melody was in the notes played by the right hand. In all of the models, the dynamics were modeled independently and as a result the dynamics did always occur in a logical fashion. There were many instances where certain notes are uncomfortably loud compared to the rest of the piece and did not logically fit in with the rest of the generated piece. 
 
-Figure eight displays the results of the survey. Of the listeners asked about the compositions inspired by Pachabel's Cannon, three preferred Model 1, six preferred Model 2 and only one preferred Model 3. Six out of ten correctly identified the original compositon. On the other hand, eight of twelve respondents correctly chose Jupiter as the original composition for the other remixes. None of the resondents preferred Model 1, ten preferred Model 2 and two preferred Model 3. For both groups, Model 2 was the overall preferred composition. 
+Twenty-two individuals were sent the three versions of one of the two original songs and were asked which version they preferred (\autoref{survey1}) and which original song, Jupiter or Pachelbel's Canon, they thought generated the new versions (\autoref{survey2}). Of the listeners asked about the compositions inspired by Pachabel's Cannon, three preferred Model 1, six preferred Model 2 and only one preferred Model 3. Six out of ten correctly identified the original composition. On the other hand, eight of twelve respondents correctly chose Jupiter as the original composition for the other remixes. Of those that listened to Jupiter, none of the respondents preferred Model 1, ten preferred Model 2 and two preferred Model 3. For both groups, Model 2, the second order HMM,  was by far the overall preferred composition.  
+
+Full MP3 versions of all generated songs, as well as the original versions of Jupiter and Pachelbel's Canon are included with the paper.  As above, in the naming of the MP3s, Model 1 refers to the first order HMM, Model 2 to the second order HMM and Model 3 to the two hidden state HMM.
 
 
 
@@ -188,13 +236,13 @@ Figure eight displays the results of the survey. Of the listeners asked about th
 \begin{subfigure}{.5\textwidth}
   \centering
   \includegraphics[scale = 0.5]{SurveyFav.pdf}
-  \caption{Preferred Compositions}
+  \caption{Preferred Compositions\label{survey1}}
   \label{fig:sub1}
 \end{subfigure}%
 \begin{subfigure}{.5\textwidth}
   \centering
   \includegraphics[scale = 0.5]{SurveyGuesses.pdf}
-  \caption{Inspiration for the Remixes}
+  \caption{Inspiration for the Remixes\label{survey2}}
   \label{fig:sub2}
 \end{subfigure}
 \caption{Survey Results}
@@ -206,23 +254,23 @@ Figure eight displays the results of the survey. Of the listeners asked about th
 
 \section{Conclusion and Further Research}
 
-Of the three models used to create the remixed compositions, none of the models produce d pieces that soudned like fundmental music. This is not surprising given the simple structures of our models. There are certain points in soe of the pieces where individual measures sound good, but the overall piece is still not cohesive. The secon order HMM seemed to perform the best in creating music. 
+Of the three models used to create the remixed compositions, none of the models produced pieces that sounded like coherent music that was trying to tell a story or evoke an emotion. This is not surprising given the simple structures of our models. There are certain points in some of the pieces where individual measures sound good, but the overall piece is still not as cohesive as we would have liked. The second order HMM seemed to perform the best in creating music. 
 
-One extension of this project we would like to explore are higher order Hidden Markov Models. Models of higher orders would allow for the current note and velocity to depend on more previous notes. This would introduce more structure and dependence into the models that could create the cohesion in the pieces that was missing before. The second order HMM seemed to perform the best, so it would be exciting to see what a third, fourth or fifth order HMM could do. 
+One extension of this project we would like to explore are higher order Hidden Markov Models. Models of higher orders would allow for the current note pitches and velocities to depend on more previous notes. This would introduce more structure and dependence into the models that could create the cohesion in the pieces that was missing before. The second order HMM seemed to perform the best, so it would be exciting to see how a third, fourth or fifth order HMM could improve the generated compositions. 
 
-In addition, we need to include the dependencies between the dynamcis and the notes in the model. This could improve the disconerting loud notes in the pieces. Modeling such dependency could also extend to a piece with multiple instruments. This would require the dependencies between instruments to be modeled as well. 
+In addition, we need to include the dependencies between the dynamics and the notes in the model. This could improve the disconcerting loud notes in the pieces. Modeling such dependency could also extend to a piece with multiple instruments. This would require the dependencies between instruments to be modeled as well. 
 
-The resulting compositions from these models showed promising results, but there is a lot of room for improvement. The improvements and extensions described above could elevate our results to more cohesive and complicated compositions that have more of a resemblance to music composition. 
+The resulting compositions from these models showed promising results, but there significant room for improvement. The improvements and extensions described above could elevate our results to more cohesive and complicated compositions that have more of a resemblance to actual music composition done by humans. 
 
 
 \newpage
 
 \section{Appendix}
 
-\subsection{Baum-Welch for Second Order HMM}
-
+\subsection{Baum-Welch Algorithm for Second Order HMM}
+\label{2ndHMM}
 1. Run first order Baum-Welch to estimate $\pi$, T, $\phi$. \newline
-2. Use second order Baum-Welch to estimate $T_{ijk}$.\newline
+2. Use second order Baum-Welch to estimate $T_{ijk}$:\newline
 
 Forward Algorithm: \newline
 $$\alpha_1(i) = \pi_i \phi_i(x_1)$$
@@ -230,7 +278,7 @@ $$\alpha_2(i,j) = \alpha_1(i) T_{ij} \phi_j(x_2)$$
 $$:$$
 $$:$$
 $$\alpha_{t+1}(j, l) = \sum_{i=1}^M \alpha_t(i,j) T_{ijl} \phi_l(x_{t+1})$$
-where 2 $\leq$ t $\leq$ T-1 and 1 $\leq$j,k $\leq$ N = M. \newline
+where 2 $\leq$ t $\leq$ T-1 and 1 $\leq$j,k $\leq$  M. \newline
 Thus, $P(X | \lambda) = \sum_{i=1}^M \alpha_T(i,M)$. \newline
 
 Backward Algorithm: \newline
@@ -238,15 +286,15 @@ $$\beta_t(i,j) = \sum_{i=1}^M \beta_{t+1}(j,k) T_{ijk} \phi_k(x_{t+1})$$
 where 2 $\leq$ t $\leq$ T-1 and 1 $\leq$ j,k $\leq$ M. \newline
 
 Baum-Welch Estimate for $T_{ijk}$: \newline
-$$\beta_t(i,j,k) = \frac{\alpha_t(i,j) T_{ijk} \phi_k(x_{t+1} \beta_{t+1}(j,k)}{P(x|\lambda)}$$ 
+$$\beta_t(i,j,k) = \frac{\alpha_t(i,j) T_{ijk} \phi_k(x_{t+1}) \beta_{t+1}(j,k)}{P(x|\lambda)}$$ 
 where 2 $\leq$ t $\leq$ T-1. \newline
 
 $$\bar{T_{ijk}} = \frac{\sum_t \beta_t (i,j,k)}{\sum_{k,t} \beta_t (i,j,k)}$$
 
-Iterate until $|p_{old} - p_{new}| < tol$. 
+Iterate until convergence. 
 
 \subsection{Baum-Welch for First Order HMM with Two Hidden States}
-
+\label{3rdHMM}
 Define the following:
 
 $$A_{ij} = \textbf{P} (R_t = j | R_{t-1} = i)$$
@@ -257,9 +305,9 @@ $$Z_t = (R_t, S_t)$$
 The constraints are $\sum_j A_{ij} = 1, \sum_l B_{jkl} = 1.$ \newline
 
 Define c to be a constant. Thus,  \newline
-$$Q(\theta, \theta_k) = c + \sum_{t=2}^n \sum_{i,k} \sum_{j,l} \textbf{P}_{\theta_k} (R_{t-1} = i, S_{t-1} = k, R_t = j, S_t = l | x) log T_{ik, jl}$$ 
+$$Q(\theta, \theta_k) = c + \sum_{t=2}^n \sum_{i,k} \sum_{j,l} \textbf{P}_{\theta_k} (R_{t-1} = i, S_{t-1} = k, R_t = j, S_t = l | x) \log T_{ik, jl}$$ 
 $$B_{tikjl} = \textbf{P}_{\theta_k} (R_{t-1} = i, S_{t-1} = k, R_t = j, S_t = l | x)$$
-$$log T_{ik, jl} = log A_{ij} + log B_{jkl}$$
+$$\log T_{ik, jl} = \log A_{ij} + \log B_{jkl}$$
 
 Thus, \newline
 $$ 0 = \frac{\partial}{\partial A_ij}(Q(\theta, \theta_k) - \lambda \sum_{j} A_{ij}) = (\sum_{t=2}^n \sum_k \sum_l B_{tiklj} \frac{1}{A_{ij}}) - \lambda$$
@@ -278,26 +326,30 @@ $$B_{jkl} \propto \sum_{t=2}^n \sum_i B_{tikjl}$$
 
 \begin{figure}[H]
 \centering
-\caption{Pachelbel Original}
+
 \includegraphics [scale = 0.6] {PachelbelOriginal-cropped.pdf}
+\caption{Pachelbel Original\label{Porig}}
 \end{figure}
 
 \begin{figure}[H]
 \centering
-\caption{Pachelbel Remix - Model 1}
+
 \includegraphics [scale = 0.6] {PachelbelRemix-cropped.pdf}
+\caption{Pachelbel Remix - Model 1\label{P1}}
 \end{figure}
 
 \begin{figure}[H]
 \centering
-\caption{Pachelbel Remix - Model 2}
+
 \includegraphics [scale = 0.6] {PachelbelRemix2-cropped.pdf}
+\caption{Pachelbel Remix - Model 2\label{P2}}
 \end{figure}
 
 \begin{figure}[H]
 \centering
-\caption{Pachelbel Remix - Model 3}
+
 \includegraphics [scale = 0.6] {PachelbelRemix2H-cropped.pdf}
+\caption{Pachelbel Remix - Model 3\label{P3}}
 \end{figure}
 
 
@@ -306,13 +358,13 @@ $$B_{jkl} \propto \sum_{t=2}^n \sum_i B_{tikjl}$$
   \begin{minipage}[b]{0.5\linewidth}
     \centering
     \includegraphics[scale = 0.45]{CannonOriginalVelocity.pdf} 
-    \caption{Initial condition} 
+    \caption{Initial condition\label{PV0}} 
     \vspace{4ex}
   \end{minipage}%%
   \begin{minipage}[b]{0.5\linewidth}
     \centering
     \includegraphics[scale = 0.45]{CannonModel1Velocity.pdf} 
-    \caption{First Order HMM} 
+    \caption{First Order HMM\label{PV1} }
     \vspace{4ex}
   \end{minipage} 
   \begin{minipage}[b]{0.5\linewidth}
